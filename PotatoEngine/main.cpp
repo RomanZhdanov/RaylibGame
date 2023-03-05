@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Sprite.h"
+#include "AnimatedSprite.h"
 
 int main()
 {
@@ -10,17 +11,32 @@ int main()
 	
 	Sprite bush{
 		LoadTexture("assets/bush.png"),
-		Vector2{},
 		4.f
 	};
 
+	bush.setPosition(Vector2{});
+
+	AnimatedSprite knight{
+		LoadTexture("assets/knight_run_spritesheet.png"),
+		5.f,
+		6,
+		1,
+		0.1f,
+		true
+	};
+
+	knight.setPosition(Vector2{});
+
 	while (!WindowShouldClose())
 	{
+		knight.update(GetFrameTime());
+
 		BeginDrawing();
 
-		ClearBackground(BLACK);
+		ClearBackground(WHITE);
 
-		bush.draw();
+		//bush.draw();
+		knight.draw();
 
 		EndDrawing();
 	}

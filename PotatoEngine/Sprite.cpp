@@ -1,9 +1,13 @@
 #include "Sprite.h"
 #include "raylib.h"
 
-Sprite::Sprite(Texture2D texture, Vector2 position, float scale) :
+Sprite::Sprite()
+{
+
+}
+
+Sprite::Sprite(Texture2D texture, float scale) :
 	texture(texture),
-	position(position),
 	scale(scale)
 {
 	color = WHITE;
