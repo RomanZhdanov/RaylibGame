@@ -7,6 +7,7 @@ AnimatedSprite::AnimatedSprite(Texture2D txtre, float scl, int framesX, int fram
 	looping(looping),
 	speed(speed)
 {
+	currentFrameTime = speed;
 	frameWidth = texture.width / framesX;
 	frameHeight = texture.height / framesY;
 }

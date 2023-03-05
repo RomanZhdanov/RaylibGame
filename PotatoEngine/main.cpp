@@ -11,32 +11,51 @@ int main()
 	
 	Sprite bush{
 		LoadTexture("assets/bush.png"),
-		4.f
+		1.f
 	};
 
 	bush.setPosition(Vector2{});
 
-	AnimatedSprite knight{
+	AnimatedSprite knightRun{
 		LoadTexture("assets/knight_run_spritesheet.png"),
-		5.f,
+		6.f,
 		6,
 		1,
-		0.1f,
+		1.f / 12.f,
 		true
 	};
 
-	knight.setPosition(Vector2{});
+	AnimatedSprite knightIdle{
+		LoadTexture("assets/knight_idle_spritesheet.png"),
+		6.f,
+		6,
+		1,
+		1.f / 12.f,
+		true
+	};
+
+	AnimatedSprite* animations[]{
+		&knightIdle,
+		&knightRun
+	};
 
 	while (!WindowShouldClose())
 	{
-		knight.update(GetFrameTime());
+		AnimatedSprite* animation = animations[0];
+
+		if (IsKeyDown(KEY_SPACE))
+		{
+			animation = animations[1];
+		}
+
+		animation->update(GetFrameTime());
 
 		BeginDrawing();
 
 		ClearBackground(WHITE);
 
-		//bush.draw();
-		knight.draw();
+		bush.draw();
+		animation->draw();
 
 		EndDrawing();
 	}
