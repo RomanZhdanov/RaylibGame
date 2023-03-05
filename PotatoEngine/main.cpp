@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "Sprite.h"
 
 int main()
 {
@@ -7,11 +8,19 @@ int main()
 
 	InitWindow(windowWidth, windowHeight, "Potato");
 	
+	Sprite bush{
+		LoadTexture("assets/bush.png"),
+		Vector2{},
+		4.f
+	};
+
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
 
 		ClearBackground(BLACK);
+
+		bush.draw();
 
 		EndDrawing();
 	}
