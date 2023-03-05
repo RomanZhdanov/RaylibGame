@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include "Sprite.h"
-#include "AnimatedSprite.h"
+#include "Player.h"
 
 int main()
 {
@@ -16,46 +16,19 @@ int main()
 
 	bush.setPosition(Vector2{});
 
-	AnimatedSprite knightRun{
-		LoadTexture("assets/knight_run_spritesheet.png"),
-		6.f,
-		6,
-		1,
-		1.f / 12.f,
-		true
-	};
-
-	AnimatedSprite knightIdle{
-		LoadTexture("assets/knight_idle_spritesheet.png"),
-		6.f,
-		6,
-		1,
-		1.f / 12.f,
-		true
-	};
-
-	AnimatedSprite* animations[]{
-		&knightIdle,
-		&knightRun
-	};
+	Player knight;
 
 	while (!WindowShouldClose())
 	{
-		AnimatedSprite* animation = animations[0];
-
-		if (IsKeyDown(KEY_SPACE))
-		{
-			animation = animations[1];
-		}
-
-		animation->update(GetFrameTime());
+		float delta = GetFrameTime();
+		knight.update(delta);
 
 		BeginDrawing();
 
 		ClearBackground(WHITE);
 
 		bush.draw();
-		animation->draw();
+		knight.draw();
 
 		EndDrawing();
 	}
