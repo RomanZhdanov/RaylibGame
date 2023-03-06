@@ -7,19 +7,15 @@ Slime::Slime()
 		textureManager.get("slime_idle"),
 		6.f,
 		6,
-		1,
-		1.f / 12.f,
-		true
+		1
 	};
 	auto* run = new AnimatedSprite{
 		textureManager.get("slime_run"),
 		6.f,
 		6,
-		1,
-		1.f / 12.f,
-		true
+		1
 	};
-	animations.add("idle", idle);
-	animations.add("run", run);
+	animations.add("idle", new Animation(idle, 0, 5, 1.f / 12.f, true));
+	animations.add("run", new Animation(run, 0, 5, 1.f / 12.f, true));
 	animations.set("idle");
 }

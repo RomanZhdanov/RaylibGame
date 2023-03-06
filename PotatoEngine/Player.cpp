@@ -8,21 +8,18 @@ Player::Player()
 		textureManager.get("knight_idle"),
 		6.f,
 		6,
-		1,
-		1.f / 12.f,
-		true
+		1
 	};
 	auto* run = new AnimatedSprite{
 		textureManager.get("knight_run"),
 		6.f,
 		6,
-		1,
-		1.f / 12.f,
-		true
+		1
 	};
+
 	speed = 400.f;
-	animations.add("idle", idle);
-	animations.add("run", run);
+	animations.add("idle", new Animation(idle, 0, 5, 1.f / 12.f, true));
+	animations.add("run", new Animation(run, 0, 5, 1.f / 12.f, true));
 }
 
 void Player::update(float delta)

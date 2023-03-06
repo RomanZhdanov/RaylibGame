@@ -1,38 +1,17 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(Texture2D* txtre, float scl, int framesX, int framesY, float speed, bool looping) :
+AnimatedSprite::AnimatedSprite(Texture2D* txtre, float scl, int framesX, int framesY) :
 	Sprite(txtre, scl),
 	framesX(framesX),
-	framesY(framesY),
-	looping(looping),
-	speed(speed)
+	framesY(framesY)
 {
-	currentFrameTime = speed;
 	frameWidth = texture->width / framesX;
 	frameHeight = texture->height / framesY;
 }
 
-void AnimatedSprite::update(float delta)
+void AnimatedSprite::drawFrame(int frame)
 {
-	if (currentFrame == getFramesCount() - 1 &&
-		looping == false)
-	{
-		finished = true;
-		return;
-	}
-
-	currentFrameTime -= delta;
-
-	if (currentFrameTime < 0)
-	{
-		currentFrame++;
-		currentFrameTime = speed;
-	}
-}
-
-void AnimatedSprite::draw()
-{
-	Rectangle source{ currentFrame * frameWidth, currentFrame * frameHeight, rightleft * frameWidth, frameHeight };
+	Rectangle source{ frame * frameWidth, frame * frameHeight, rightleft * frameWidth, frameHeight };
 	Rectangle dest{ position.x, position.y, scale * frameWidth, scale * frameHeight };
 
 	DrawTexturePro(*texture, source, dest, Vector2{}, rotation, color);
