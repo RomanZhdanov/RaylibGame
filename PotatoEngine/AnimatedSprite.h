@@ -8,6 +8,7 @@ public:
 	void update(float delta);
 	virtual void draw() override;
 	int getFramesCount() const { return framesX * framesY; }
+	void setRightLeft(float value) { rightleft = value; }
 private:
 	int framesX{ 1 };
 	int framesY{ 1 };
@@ -18,4 +19,5 @@ private:
 	float currentFrameTime{};
 	float frameWidth{};
 	float frameHeight{};
+	float rightleft{ 1.f };
 };

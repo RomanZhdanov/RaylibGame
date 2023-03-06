@@ -37,7 +37,7 @@ void Player::update(float delta)
 		animations.set("run");
 		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
 
-		velocity.x < 0.f ? rightleft = -1.f : rightleft = 1.f;
+		velocity.x < 0.f ? animations.setLeft() : animations.setRight();
 	}
 	else
 	{

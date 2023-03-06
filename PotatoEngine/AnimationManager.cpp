@@ -24,3 +24,13 @@ void AnimationManager::setPosition(Vector2 position)
 {
 	activeAnimation->setPosition(position);
 }
+
+void AnimationManager::setRight()
+{
+	activeAnimation->setRightLeft(1.f);
+}
+
+void AnimationManager::setLeft()
+{
+	activeAnimation->setRightLeft(-1.f);
+}
