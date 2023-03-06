@@ -150,6 +150,7 @@
     <ClInclude Include="GameResources.h" />
     <ClInclude Include="Goblin.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="WindowDimensions.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextureManager.h" />

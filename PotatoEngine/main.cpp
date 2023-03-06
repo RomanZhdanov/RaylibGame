@@ -3,13 +3,13 @@
 #include "GameResources.h"
 #include "EnemyManager.h"
 #include <vector>
+#include "WindowDimensions.h"
 
 int main()
 {
-	int windowWidth{ 1200 };
-	int windowHeight{ 800 };
+	WindowDimensions window{ 1200, 800 };
 
-	InitWindow(windowWidth, windowHeight, "Potato");
+	InitWindow(window.width, window.height, "Potato");
 	
 	LoadTextures();
 
@@ -19,6 +19,7 @@ int main()
 	enemies.create("slime", Vector2{500.f, 450.f});
 
 	Player knight;
+	knight.setWindow(window);
 
 	while (!WindowShouldClose())
 	{

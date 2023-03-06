@@ -3,6 +3,8 @@
 
 void Entity::update(float delta)
 {
+	positionLastFrame = position;
+
 	if (Vector2Length(velocity) != 0.0)
 	{
 		animations.set("run");
@@ -15,6 +17,14 @@ void Entity::update(float delta)
 		animations.set("idle");
 	}
 	velocity = {};
+
+	if (position.x < 0.f ||
+		position.y < 0.f ||
+		position.x > window.width ||
+		position.y > window.height)
+	{
+		undoMovement();
+	}
 
 	animations.setPosition(position);
 	animations.update(delta);
