@@ -5,7 +5,7 @@ class Sprite
 {
 public:
 	Sprite();
-	Sprite(Texture2D texture, float scale);
+	Sprite(Texture2D* texture, float scale);
 	Vector2 getPosition() { return getCenter(); }
 	void setPosition(Vector2 pos) { position = pos; }
 	void setScale(float scl) { scale = scl; }
@@ -13,7 +13,7 @@ public:
 	void setRotation(float rtn) { rotation = rtn; }
 	virtual void draw();
 protected:
-	Texture2D texture{};
+	Texture2D* texture{};
 	Vector2 position{};
 	float scale{};
 	float rotation{};

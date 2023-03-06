@@ -1,9 +1,10 @@
 #include "Player.h"
+#include "GameResources.h"
 
 Player::Player()
 {	
 	auto* idle = new AnimatedSprite{
-		LoadTexture("assets/knight_idle_spritesheet.png"),
+		textureManager.get("knight_idle"),
 		6.f,
 		6,
 		1,
@@ -11,7 +12,7 @@ Player::Player()
 		true
 	};
 	auto* run = new AnimatedSprite{
-		LoadTexture("assets/knight_run_spritesheet.png"),
+		textureManager.get("knight_run"),
 		6.f,
 		6,
 		1,

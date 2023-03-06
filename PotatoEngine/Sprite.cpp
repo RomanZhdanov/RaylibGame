@@ -6,7 +6,7 @@ Sprite::Sprite()
 
 }
 
-Sprite::Sprite(Texture2D texture, float scale) :
+Sprite::Sprite(Texture2D* texture, float scale) :
 	texture(texture),
 	scale(scale)
 {
@@ -15,8 +15,8 @@ Sprite::Sprite(Texture2D texture, float scale) :
 
 Vector2 Sprite::getCenter()
 {
-	float halfWidth = texture.width / 2;
-	float halfHeight = texture.height / 2;
+	float halfWidth = texture->width / 2;
+	float halfHeight = texture->height / 2;
 
 	return Vector2{
 		position.x + halfWidth,
@@ -26,5 +26,5 @@ Vector2 Sprite::getCenter()
 
 void Sprite::draw()
 {
-	DrawTextureEx(texture, position, rotation, scale, color);
+	DrawTextureEx(*texture, position, rotation, scale, color);
 }

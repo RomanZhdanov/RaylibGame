@@ -4,7 +4,7 @@
 class AnimatedSprite : public Sprite
 {
 public:
-	AnimatedSprite(Texture2D texture, float scale, int framesX, int framesY, float speed, bool looping);
+	AnimatedSprite(Texture2D* texture, float scale, int framesX, int framesY, float speed, bool looping);
 	void update(float delta);
 	virtual void draw() override;
 	int getFramesCount() const { return framesX * framesY; }

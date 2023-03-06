@@ -1,6 +1,6 @@
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(Texture2D txtre, float scl, int framesX, int framesY, float speed, bool looping) :
+AnimatedSprite::AnimatedSprite(Texture2D* txtre, float scl, int framesX, int framesY, float speed, bool looping) :
 	Sprite(txtre, scl),
 	framesX(framesX),
 	framesY(framesY),
@@ -8,8 +8,8 @@ AnimatedSprite::AnimatedSprite(Texture2D txtre, float scl, int framesX, int fram
 	speed(speed)
 {
 	currentFrameTime = speed;
-	frameWidth = texture.width / framesX;
-	frameHeight = texture.height / framesY;
+	frameWidth = texture->width / framesX;
+	frameHeight = texture->height / framesY;
 }
 
 void AnimatedSprite::update(float delta)
@@ -35,5 +35,5 @@ void AnimatedSprite::draw()
 	Rectangle source{ currentFrame * frameWidth, currentFrame * frameHeight, frameWidth, frameHeight };
 	Rectangle dest{ position.x, position.y, scale * frameWidth, scale * frameHeight };
 
-	DrawTexturePro(texture, source, dest, Vector2{}, rotation, color);
+	DrawTexturePro(*texture, source, dest, Vector2{}, rotation, color);
 }
