@@ -4,6 +4,7 @@ TextureManager textureManager{};
 
 void LoadTextures()
 {
+	textureManager.loadTexture("player", "assets/player.png");
 	textureManager.loadTexture("knight_idle", "assets/knight_idle_spritesheet.png");
 	textureManager.loadTexture("knight_run", "assets/knight_run_spritesheet.png");
 	textureManager.loadTexture("goblin_idle", "assets/goblin_idle_spritesheet.png");

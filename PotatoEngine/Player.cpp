@@ -4,22 +4,20 @@
 
 Player::Player()
 {	
-	auto* idle = new AnimatedSprite{
-		textureManager.get("knight_idle"),
-		6.f,
-		6,
-		1
-	};
-	auto* run = new AnimatedSprite{
-		textureManager.get("knight_run"),
-		6.f,
-		6,
+	auto* player = new AnimatedSprite{
+		textureManager.get("player"),
+		4.f,
+		60,
 		1
 	};
 
 	speed = 400.f;
-	animations.add("idle", new Animation(idle, 0, 5, 1.f / 12.f, true));
-	animations.add("run", new Animation(run, 0, 5, 1.f / 12.f, true));
+	float animationSpeed = 1.f / 12.f;
+	animations.add("idle", new Animation(player, 59, 59, animationSpeed, true));
+	animations.add("run_right", new Animation(player, 0, 5, animationSpeed, true));
+	animations.add("run_up", new Animation(player, 6, 11, animationSpeed, true));
+	animations.add("run_left", new Animation(player, 12, 17, animationSpeed, true));
+	animations.add("run_down", new Animation(player, 18, 23, animationSpeed, true));
 }
 
 void Player::update(float delta)

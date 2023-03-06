@@ -7,10 +7,12 @@ void Entity::update(float delta)
 
 	if (Vector2Length(velocity) != 0.0)
 	{
-		animations.set("run");
 		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
 
-		velocity.x < 0.f ? animations.setLeft() : animations.setRight();
+		if (velocity.x < 0.f) animations.set("run_left");
+		else if (velocity.x > 0.f) animations.set("run_right");
+		else if (velocity.y < 0.f) animations.set("run_up");
+		else if (velocity.y > 0.f) animations.set("run_down");
 	}
 	else
 	{
