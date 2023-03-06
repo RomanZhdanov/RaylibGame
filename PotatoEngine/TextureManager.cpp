@@ -10,3 +10,11 @@ Texture2D* TextureManager::get(const char* textureId)
 {
     return &textureStorage[textureId];
 }
+
+TextureManager::~TextureManager()
+{
+    for (auto const& item : textureStorage)
+    {
+        UnloadTexture(item.second);
+    }
+}

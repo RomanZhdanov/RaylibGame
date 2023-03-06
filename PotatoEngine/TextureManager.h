@@ -5,6 +5,7 @@
 class TextureManager
 {
 public:
+	~TextureManager();
 	void loadTexture(const char* textureId, const char* path);
 	Texture2D* get(const char* textureId);
 private:
