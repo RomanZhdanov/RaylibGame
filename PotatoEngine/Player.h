@@ -1,12 +1,10 @@
 #pragma once
-#include "AnimationManager.h"
+#include "Entity.h"
 
-class Player
+class Player : public Entity
 {
 public:
 	Player();
-	void update(float delta);
-	void draw();
+	virtual void update(float delta) override;
 private:
-	AnimationManager animations;
 };

@@ -36,6 +36,9 @@
     <ClCompile Include="GameResources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sprite.h">
@@ -54,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameResources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

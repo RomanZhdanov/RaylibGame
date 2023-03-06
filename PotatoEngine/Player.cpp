@@ -34,8 +34,3 @@ void Player::update(float delta)
 
 	animations.update(delta);
 }
-
-void Player::draw()
-{
-	animations.draw();
-}
