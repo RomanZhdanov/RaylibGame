@@ -1,7 +1,8 @@
 #include "raylib.h"
-#include "Sprite.h"
+#include "AnimatedSprite.h"
 #include "Player.h"
 #include "GameResources.h"
+#include "EnemyFactory.h"
 
 int main()
 {
@@ -12,19 +13,27 @@ int main()
 	
 	LoadTextures();
 
-	Sprite bush{
+	EnemyFactory enemyFactory;
+
+	Enemy* goblin = enemyFactory.CreateEnemy("goblin");
+
+	AnimatedSprite bush{
 		textureManager.get("bush"),
-		1.f
+		1.f, 1, 1, 0.f, true
 	};
 
-	bush.setPosition(Vector2{});
+	Vector2 goblinPos{ 300.f, 500.f };
+	bush.setPosition(goblinPos);
+	goblin->setPosition(goblinPos);
 
 	Player knight;
 
 	while (!WindowShouldClose())
 	{
 		float delta = GetFrameTime();
+		bush.update(delta);
 		knight.update(delta);
+		goblin->update(delta);
 
 		BeginDrawing();
 
@@ -32,6 +41,7 @@ int main()
 
 		bush.draw();
 		knight.draw();
+		goblin->draw();
 
 		EndDrawing();
 	}

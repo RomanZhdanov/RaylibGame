@@ -19,3 +19,8 @@ void AnimationManager::draw()
 {
 	activeAnimation->draw();
 }
+
+void AnimationManager::setPosition(Vector2 position)
+{
+	activeAnimation->setPosition(position);
+}
