@@ -32,19 +32,5 @@ void Player::update(float delta)
 	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
 	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
 
-	if (Vector2Length(velocity) != 0.0)
-	{
-		animations.set("run");
-		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
-
-		velocity.x < 0.f ? animations.setLeft() : animations.setRight();
-	}
-	else
-	{
-		animations.set("idle");
-	}
-	velocity = {};
-
-	animations.setPosition(position);
-	animations.update(delta);
+	Entity::update(delta);
 }
