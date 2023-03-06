@@ -1,7 +1,5 @@
 #pragma once
-#include "AnimatedSprite.h"
-#include <map>
-#include <string>
+#include "AnimationManager.h"
 
 class Player
 {
@@ -10,6 +8,5 @@ public:
 	void update(float delta);
 	void draw();
 private:
-	std::map<std::string,AnimatedSprite*> animations;
-	AnimatedSprite* activeAnimation{};
+	AnimationManager animations;
 };

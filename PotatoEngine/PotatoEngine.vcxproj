@@ -128,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sprite.h" />
   </ItemGroup>

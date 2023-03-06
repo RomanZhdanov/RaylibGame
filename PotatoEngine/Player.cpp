@@ -2,37 +2,39 @@
 
 Player::Player()
 {	
-	animations.insert(std::make_pair("idle", new AnimatedSprite{
+	auto* idle = new AnimatedSprite{
 		LoadTexture("assets/knight_idle_spritesheet.png"),
 		6.f,
 		6,
 		1,
 		1.f / 12.f,
 		true
-	}));
-	animations.insert(std::make_pair("run", new AnimatedSprite{
+	};
+	auto* run = new AnimatedSprite{
 		LoadTexture("assets/knight_run_spritesheet.png"),
 		6.f,
 		6,
 		1,
 		1.f / 12.f,
 		true
-	}));
+	};
+	animations.add("idle", idle);
+	animations.add("run", run);
 }
 
 void Player::update(float delta)
 {
-	activeAnimation = animations["idle"];
+	animations.set("idle");
 
 	if (IsKeyDown(KEY_SPACE))
 	{
-		activeAnimation = animations["run"];
+		animations.set("run");
 	}
 
-	activeAnimation->update(delta);
+	animations.update(delta);
 }
 
 void Player::draw()
 {
-	activeAnimation->draw();
+	animations.draw();
 }
