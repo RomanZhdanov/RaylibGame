@@ -1,6 +1,7 @@
 #pragma once
 #include "AnimatedSprite.h"
-#include <vector>
+#include <map>
+#include <string>
 
 class Player
 {
@@ -9,6 +10,6 @@ public:
 	void update(float delta);
 	void draw();
 private:
-	std::vector<AnimatedSprite> animations;
+	std::map<std::string,AnimatedSprite*> animations;
 	AnimatedSprite* activeAnimation{};
 };
