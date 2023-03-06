@@ -6,8 +6,8 @@
 
 int main()
 {
-	int windowWidth{ 800 };
-	int windowHeight{ 600 };
+	int windowWidth{ 1200 };
+	int windowHeight{ 800 };
 
 	InitWindow(windowWidth, windowHeight, "Potato");
 	
