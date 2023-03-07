@@ -26,13 +26,27 @@ Player::Player()
 
 void Player::update(float delta)
 {
+	switch (state) {
+		case PlayerState::MOVE:
+			move(delta);
+			break;
+		case PlayerState::ATTACK:
+			attack(delta);
+			break;
+	}	
+}
+
+void Player::move(float delta)
+{
 	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
 	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
 	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
-	if (IsKeyDown(KEY_S)) velocity.y += 1.0;	
+	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
 
-	if (IsKeyDown(KEY_SPACE))
+	if (IsKeyPressed(KEY_SPACE))
 	{
+		state = PlayerState::ATTACK;
+
 		if (velocity.x < 0.f) animations.set("attack_left");
 		else if (velocity.x > 0.f) animations.set("attack_right");
 		else if (velocity.y < 0.f) animations.set("attack_up");
@@ -47,5 +61,31 @@ void Player::update(float delta)
 		else if (velocity.y > 0.f) animations.set("run_down");
 	}
 
-	Entity::update(delta);
+	positionLastFrame = position;
+
+	if (Vector2Length(velocity) != 0.0)
+	{
+		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
+	}
+	else
+	{
+		animations.set("idle");
+	}
+	velocity = {};
+
+	if (position.x < 0.f ||
+		position.y < 0.f ||
+		position.x > window.width ||
+		position.y > window.height)
+	{
+		undoMovement();
+	}
+
+	animations.setPosition(position);
+	animations.update(delta);
+}
+
+void Player::attack(float delta)
+{
+
 }
