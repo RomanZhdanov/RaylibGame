@@ -29,7 +29,7 @@ int main()
 
 		BeginDrawing();
 
-		ClearBackground(WHITE);
+		ClearBackground(LIGHTGRAY);
 
 		knight.draw();
 		enemies.draw();

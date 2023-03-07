@@ -29,7 +29,23 @@ void Player::update(float delta)
 	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
 	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
 	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
-	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
+	if (IsKeyDown(KEY_S)) velocity.y += 1.0;	
+
+	if (IsKeyDown(KEY_SPACE))
+	{
+		if (velocity.x < 0.f) animations.set("attack_left");
+		else if (velocity.x > 0.f) animations.set("attack_right");
+		else if (velocity.y < 0.f) animations.set("attack_up");
+		else if (velocity.y > 0.f) animations.set("attack_down");
+		else animations.set("attack_down");
+	}
+	else
+	{
+		if (velocity.x < 0.f) animations.set("run_left");
+		else if (velocity.x > 0.f) animations.set("run_right");
+		else if (velocity.y < 0.f) animations.set("run_up");
+		else if (velocity.y > 0.f) animations.set("run_down");
+	}
 
 	Entity::update(delta);
 }
