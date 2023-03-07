@@ -12,6 +12,8 @@ public:
 	void setPosition(Vector2 position);
 	void setRight();
 	void setLeft();
+	void reset() { activeAnimation->reset(); }
+	bool isFinished() { return activeAnimation->isFinished(); }
 private:
 	std::map<const char*, Animation*> animations{};
 	Animation* activeAnimation{};

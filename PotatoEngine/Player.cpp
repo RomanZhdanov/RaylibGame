@@ -18,10 +18,10 @@ Player::Player()
 	animations.add("run_up", new Animation(player, 6, 11, animationSpeed, true));
 	animations.add("run_left", new Animation(player, 12, 17, animationSpeed, true));
 	animations.add("run_down", new Animation(player, 18, 23, animationSpeed, true));
-	animations.add("attack_right", new Animation(player, 24, 27, animationSpeed, true));
-	animations.add("attack_up", new Animation(player, 28, 31, animationSpeed, true));
-	animations.add("attack_left", new Animation(player, 32, 35, animationSpeed, true));
-	animations.add("attack_down", new Animation(player, 36, 39, animationSpeed, true));
+	animations.add("attack_right", new Animation(player, 24, 27, animationSpeed, false));
+	animations.add("attack_up", new Animation(player, 28, 31, animationSpeed, false));
+	animations.add("attack_left", new Animation(player, 32, 35, animationSpeed, false));
+	animations.add("attack_down", new Animation(player, 36, 39, animationSpeed, false));
 }
 
 void Player::update(float delta)
@@ -38,6 +38,8 @@ void Player::update(float delta)
 
 void Player::move(float delta)
 {
+	velocity = {};
+
 	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
 	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
 	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
@@ -46,20 +48,12 @@ void Player::move(float delta)
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		state = PlayerState::ATTACK;
-
-		if (velocity.x < 0.f) animations.set("attack_left");
-		else if (velocity.x > 0.f) animations.set("attack_right");
-		else if (velocity.y < 0.f) animations.set("attack_up");
-		else if (velocity.y > 0.f) animations.set("attack_down");
-		else animations.set("attack_down");
 	}
-	else
-	{
-		if (velocity.x < 0.f) animations.set("run_left");
-		else if (velocity.x > 0.f) animations.set("run_right");
-		else if (velocity.y < 0.f) animations.set("run_up");
-		else if (velocity.y > 0.f) animations.set("run_down");
-	}
+	
+	if (velocity.x < 0.f) animations.set("run_left");
+	else if (velocity.x > 0.f) animations.set("run_right");
+	else if (velocity.y < 0.f) animations.set("run_up");
+	else if (velocity.y > 0.f) animations.set("run_down");
 
 	positionLastFrame = position;
 
@@ -71,7 +65,6 @@ void Player::move(float delta)
 	{
 		animations.set("idle");
 	}
-	velocity = {};
 
 	if (position.x < 0.f ||
 		position.y < 0.f ||
@@ -87,5 +80,17 @@ void Player::move(float delta)
 
 void Player::attack(float delta)
 {
+	if (velocity.x < 0.f) animations.set("attack_left");
+	else if (velocity.x > 0.f) animations.set("attack_right");
+	else if (velocity.y < 0.f) animations.set("attack_up");
+	else if (velocity.y > 0.f) animations.set("attack_down");
+	else animations.set("attack_down");
 
+	animations.update(delta);
+
+	if (animations.isFinished())
+	{
+		animations.reset();
+		state = PlayerState::MOVE;
+	}
 }

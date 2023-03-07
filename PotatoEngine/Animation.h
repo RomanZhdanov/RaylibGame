@@ -7,6 +7,8 @@ public:
 	Animation(AnimatedSprite* sprite, int startFrame, int endFrame, float speed, bool looping);
 	void update(float delta);
 	void draw();
+	void reset() { currentFrame = startFrame; finished = false; }
+	bool isFinished() { return finished; }
 	AnimatedSprite* sprite;
 private:
 	int startFrame{};
