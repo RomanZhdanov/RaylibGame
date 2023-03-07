@@ -9,6 +9,8 @@ Animation::Animation(AnimatedSprite* sprite, int startFrame, int endFrame, float
 {
 	currentFrame = startFrame;
 	currentFrameTime = speed;
+	width = sprite->getWidth();
+	height = sprite->getHeight();
 }
 
 void Animation::update(float delta)

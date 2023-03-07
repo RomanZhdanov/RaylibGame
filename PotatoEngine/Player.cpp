@@ -33,7 +33,87 @@ void Player::update(float delta)
 		case PlayerState::ATTACK:
 			attack(delta);
 			break;
-	}	
+	}
+
+	float halfWidth = animations.getWidth() / 2;
+	float halfHeight = animations.getHeight() / 2;
+
+	Vector2 center{
+		position.x + halfWidth,
+		position.y + halfHeight
+	};
+
+	float padding{ 0.335f };
+
+	float width = animations.getWidth() * padding;
+	float height = animations.getHeight() * padding;
+
+	collisionRec = {
+		position.x + width,
+		position.y + height,
+		width,
+		height
+	};
+
+	// left
+	if (velocity.x < 0.f) hitbox = {
+		position.x,
+		position.y + height,
+		width,
+		height
+	};
+	// right
+	else if (velocity.x > 0.f) hitbox = {
+		position.x + width * 2,
+		position.y + height,
+		width,
+		height
+	};
+	// up
+	else if (velocity.y < 0.f) hitbox = {
+		position.x + width,
+		position.y,
+		width,
+		height
+	};
+	// down
+	else if (velocity.y > 0.f) hitbox = {
+		position.x + width,
+		position.y + height * 2,
+		width,
+		height
+	};
+	else hitbox = {
+		position.x + width,
+		position.y + height * 2,
+		width,
+		height
+	};
+	
+
+	DrawRectangleLines(
+		hitbox.x,
+		hitbox.y,
+		hitbox.width,
+		hitbox.height,
+		RED
+	);
+
+	DrawRectangleLines(
+		collisionRec.x,
+		collisionRec.y,
+		collisionRec.width,
+		collisionRec.height,
+		BLUE
+	); 
+	
+	if (collisionRec.x < 0.f ||
+		collisionRec.y < 0.f ||
+		collisionRec.x > window.width ||
+		collisionRec.y > window.height)
+	{
+		undoMovement();
+	}
 }
 
 void Player::move(float delta)
@@ -64,16 +144,8 @@ void Player::move(float delta)
 	else
 	{
 		animations.set("idle");
-	}
-
-	if (position.x < 0.f ||
-		position.y < 0.f ||
-		position.x > window.width ||
-		position.y > window.height)
-	{
-		undoMovement();
-	}
-
+	}		
+	
 	animations.setPosition(position);
 	animations.update(delta);
 }

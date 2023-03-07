@@ -10,6 +10,8 @@ public:
 	void reset() { currentFrame = startFrame; finished = false; }
 	bool isFinished() { return finished; }
 	AnimatedSprite* sprite;
+	float width{};
+	float height{};
 private:
 	int startFrame{};
 	int endFrame{};

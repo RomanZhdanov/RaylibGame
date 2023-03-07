@@ -14,6 +14,8 @@ public:
 	void setLeft();
 	void reset() { activeAnimation->reset(); }
 	bool isFinished() { return activeAnimation->isFinished(); }
+	float getWidth() { return activeAnimation->width; }
+	float getHeight() { return activeAnimation->height; }
 private:
 	std::map<const char*, Animation*> animations{};
 	Animation* activeAnimation{};
