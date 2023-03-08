@@ -130,6 +130,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Entity.cpp" />

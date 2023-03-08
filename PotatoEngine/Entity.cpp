@@ -14,11 +14,23 @@ void Entity::update(float delta)
 		animations.set("idle");
 	}
 	velocity = {};
+		
+	float padding{ 1.f };
 
-	if (position.x < 0.f ||
-		position.y < 0.f ||
-		position.x > window.width ||
-		position.y > window.height)
+	float width = animations.getWidth() * padding;
+	float height = animations.getHeight() * padding;
+
+	collisionRec = {
+		position.x,
+		position.y,
+		width,
+		height
+	};
+
+	if (collisionRec.x < 0.f ||
+		collisionRec.y < 0.f ||
+		collisionRec.x > window.width ||
+		collisionRec.y > window.height)
 	{
 		undoMovement();
 	}
