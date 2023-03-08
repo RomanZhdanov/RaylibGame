@@ -16,13 +16,27 @@ int main()
 	Player knight;
 	knight.setWindow(window);
 
+	float spawnTime{ 2.f };
+	float currentSpawnTime{};
+	Vector2 spawnPosition{
+		window.width / 2,
+		window.height
+	};
+
 	EnemyManager enemies;
-	enemies.create("goblin", Vector2{250.f, 450.f}, &knight, window);
-	enemies.create("slime", Vector2{500.f, 450.f}, &knight, window);
 
 	while (!WindowShouldClose())
 	{
 		float delta = GetFrameTime();
+
+		currentSpawnTime -= delta;
+		if (currentSpawnTime < 0)
+		{
+			currentSpawnTime = spawnTime;
+			enemies.create("goblin", spawnPosition, &knight, window);
+			enemies.create("slime", spawnPosition, &knight, window);
+		}
+
 		knight.update(delta);
 		enemies.update(delta);
 
