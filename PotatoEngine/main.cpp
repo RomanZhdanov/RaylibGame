@@ -17,8 +17,8 @@ int main()
 	knight.setWindow(window);
 
 	EnemyManager enemies;
-	enemies.create("goblin", Vector2{250.f, 450.f}, &knight);
-	enemies.create("slime", Vector2{500.f, 450.f}, &knight);
+	enemies.create("goblin", Vector2{250.f, 450.f}, &knight, window);
+	enemies.create("slime", Vector2{500.f, 450.f}, &knight, window);
 
 	while (!WindowShouldClose())
 	{

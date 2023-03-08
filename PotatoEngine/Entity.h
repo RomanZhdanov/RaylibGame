@@ -9,6 +9,7 @@ public:
 	virtual void draw();
 	virtual void setPosition(Vector2 pos) { position = pos; }
 	virtual void setWindow(WindowDimensions win) { window = win; }
+	Vector2 getPosition() { return position; }
 	Rectangle getCollisionRec() { return collisionRec; }
 protected:
 	bool isAlive{ true };
