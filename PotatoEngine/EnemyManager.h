@@ -10,7 +10,7 @@ public:
 	~EnemyManager();
 	void update(float delta);
 	void draw();
-	void create(std::string enemy, Vector2 position);
+	void create(std::string enemy, Vector2 position, Player* target);
 private:
 	std::vector<Enemy*> enemies{};
 	EnemyFactory enemyFactory;

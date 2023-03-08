@@ -11,6 +11,7 @@ public:
 	virtual void setWindow(WindowDimensions win) { window = win; }
 	Rectangle getCollisionRec() { return collisionRec; }
 protected:
+	bool isAlive{ true };
 	float speed{};
 	Vector2 position{};
 	Vector2 positionLastFrame{};

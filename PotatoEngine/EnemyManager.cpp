@@ -1,9 +1,10 @@
 #include "EnemyManager.h"
 
-void EnemyManager::create(std::string enemyName, Vector2 position)
+void EnemyManager::create(std::string enemyName, Vector2 position, Player* target)
 {
 	Enemy* enemy = enemyFactory.CreateEnemy(enemyName);
 	enemy->setPosition(position);
+	enemy->setTarget(target);
 	enemies.push_back(enemy);
 }
 

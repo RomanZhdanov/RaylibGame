@@ -13,13 +13,12 @@ int main()
 	
 	LoadTextures();
 
-	EnemyManager enemies;
-
-	enemies.create("goblin", Vector2{250.f, 450.f});
-	enemies.create("slime", Vector2{500.f, 450.f});
-
 	Player knight;
 	knight.setWindow(window);
+
+	EnemyManager enemies;
+	enemies.create("goblin", Vector2{250.f, 450.f}, &knight);
+	enemies.create("slime", Vector2{500.f, 450.f}, &knight);
 
 	while (!WindowShouldClose())
 	{
