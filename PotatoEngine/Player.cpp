@@ -33,7 +33,54 @@ void Player::update(float delta)
 		case PlayerState::ATTACK:
 			attack(delta);
 			break;
+	}	
+
+	DrawRectangleLines(
+		hitbox.x,
+		hitbox.y,
+		hitbox.width,
+		hitbox.height,
+		RED
+	);
+
+	DrawRectangleLines(
+		collisionRec.x,
+		collisionRec.y,
+		collisionRec.width,
+		collisionRec.height,
+		BLUE
+	); 	
+}
+
+void Player::move(float delta)
+{
+	velocity = {};
+
+	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
+	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
+	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
+	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
+
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		state = PlayerState::ATTACK;
 	}
+	
+	if (velocity.x < 0.f) animations.set("run_left");
+	else if (velocity.x > 0.f) animations.set("run_right");
+	else if (velocity.y < 0.f) animations.set("run_up");
+	else if (velocity.y > 0.f) animations.set("run_down");
+
+	positionLastFrame = position;
+
+	if (Vector2Length(velocity) != 0.0)
+	{
+		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
+	}
+	else
+	{
+		animations.set("idle");
+	}		
 
 	float halfWidth = animations.getWidth() / 2;
 	float halfHeight = animations.getHeight() / 2;
@@ -89,24 +136,7 @@ void Player::update(float delta)
 		width,
 		height
 	};
-	
 
-	DrawRectangleLines(
-		hitbox.x,
-		hitbox.y,
-		hitbox.width,
-		hitbox.height,
-		RED
-	);
-
-	DrawRectangleLines(
-		collisionRec.x,
-		collisionRec.y,
-		collisionRec.width,
-		collisionRec.height,
-		BLUE
-	); 
-	
 	if (collisionRec.x < 0.f ||
 		collisionRec.y < 0.f ||
 		collisionRec.x > window.width ||
@@ -114,37 +144,6 @@ void Player::update(float delta)
 	{
 		undoMovement();
 	}
-}
-
-void Player::move(float delta)
-{
-	velocity = {};
-
-	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
-	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
-	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
-	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
-
-	if (IsKeyPressed(KEY_SPACE))
-	{
-		state = PlayerState::ATTACK;
-	}
-	
-	if (velocity.x < 0.f) animations.set("run_left");
-	else if (velocity.x > 0.f) animations.set("run_right");
-	else if (velocity.y < 0.f) animations.set("run_up");
-	else if (velocity.y > 0.f) animations.set("run_down");
-
-	positionLastFrame = position;
-
-	if (Vector2Length(velocity) != 0.0)
-	{
-		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
-	}
-	else
-	{
-		animations.set("idle");
-	}		
 	
 	animations.setPosition(position);
 	animations.update(delta);
