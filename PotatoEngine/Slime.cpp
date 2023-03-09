@@ -2,6 +2,11 @@
 #include "GameResources.h"
 
 Slime::Slime()
+{	
+	speed = 100.f;
+}
+
+void Slime::loadAnimations()
 {
 	auto* idle = new AnimatedSprite{
 		textureManager.get("slime_idle"),
@@ -18,5 +23,4 @@ Slime::Slime()
 	animations.add("idle", new Animation(idle, 0, 5, 1.f / 12.f, true));
 	animations.add("run", new Animation(run, 0, 5, 1.f / 12.f, true));
 	animations.set("idle");
-	speed = 100.f;
 }

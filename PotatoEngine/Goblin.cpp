@@ -2,6 +2,11 @@
 #include "GameResources.h"
 
 Goblin::Goblin()
+{	
+	speed = 200.f;
+}
+
+void Goblin::loadAnimations()
 {
 	auto* idle = new AnimatedSprite{
 		textureManager.get("goblin_idle"),
@@ -18,5 +23,4 @@ Goblin::Goblin()
 	animations.add("idle", new Animation(idle, 0, 5, 1.f / 12.f, true));
 	animations.add("run", new Animation(run, 0, 5, 1.f / 12.f, true));
 	animations.set("idle");
-	speed = 200.f;
 }

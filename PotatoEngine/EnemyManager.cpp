@@ -6,6 +6,7 @@ void EnemyManager::create(std::string enemyName, Vector2 position, Player* targe
 	enemy->setPosition(position);
 	enemy->setTarget(target);
 	enemy->setWindow(window);
+	enemy->loadAnimations();
 	enemies.push_back(enemy);
 }
 

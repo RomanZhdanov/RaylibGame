@@ -8,6 +8,7 @@ public:
 	Enemy() {}
 	void setTarget(Player* player) { target = player; }
 	virtual void update(float delta) override;
+	virtual void loadAnimations() {};
 	virtual Enemy* Clone() const = 0;
 protected:
 	Player* target;
