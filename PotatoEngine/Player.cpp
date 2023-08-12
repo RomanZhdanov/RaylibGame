@@ -11,6 +11,7 @@ Player::Player()
 		1
 	};
 
+	score = 0;
 	speed = 400.f;
 	float animationSpeed = 1.f / 12.f;
 	animations.add("idle", new Animation(player, 59, 59, animationSpeed, true));

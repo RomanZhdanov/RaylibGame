@@ -10,6 +10,7 @@ class Player : public Entity
 {
 public:
 	Player();
+	int score;
 	Rectangle getHitbox() { return hitbox; }
 	virtual void update(float delta) override;
 	PlayerState getState() { return state; }
