@@ -23,6 +23,7 @@ int main()
 		window.height
 	};
 
+	Color hudColor = LIME;
 	EnemyManager enemies;
 
 	while (!WindowShouldClose())
@@ -44,7 +45,10 @@ int main()
 
 		ClearBackground(LIGHTGRAY);
 
-		DrawText(TextFormat("Score: %i", knight.getScore()), 10, 10, 20, LIME);
+
+
+		DrawText(TextFormat("Lives: %i", knight.getLives()), 10, 10, 20, hudColor);
+		DrawText(TextFormat("Score: %i", knight.getScore()), window.width - 200, 10, 20, hudColor);
 
 		/*knight.showHitboxRec(true);
 		knight.showCollisionRec(true);
