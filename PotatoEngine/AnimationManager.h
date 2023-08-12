@@ -10,6 +10,7 @@ public:
 	void set(const char* anim);
 	void add(const char* animName, Animation* animation);
 	void setPosition(Vector2 position);
+	void setColor(Color color);
 	void setRight();
 	void setLeft();
 	void reset() { activeAnimation->reset(); }

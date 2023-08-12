@@ -40,6 +40,17 @@ void Player::update(float delta)
 			break;
 	}	
 
+	if (isHurting())
+	{
+		hurting -= delta;
+		animations.setColor(RED);
+	}
+	else
+	{
+		hurting = 0.f;
+		animations.setColor(WHITE);
+	}
+
 	if (hitboxRecVisible)
 	{
 		DrawRectangleLines(

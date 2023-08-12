@@ -34,3 +34,8 @@ void AnimationManager::setLeft()
 {
 	activeAnimation->sprite->setRightLeft(-1.f);
 }
+
+void AnimationManager::setColor(Color color)
+{
+	activeAnimation->sprite->setColor(color);
+}
