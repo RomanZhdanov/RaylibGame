@@ -4,6 +4,7 @@
 Goblin::Goblin()
 {	
 	speed = 200.f;
+	points = 200;
 }
 
 void Goblin::loadAnimations()

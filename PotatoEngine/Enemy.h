@@ -12,4 +12,5 @@ public:
 	virtual Enemy* Clone() const = 0;
 protected:
 	Player* target;
+	int points;
 };

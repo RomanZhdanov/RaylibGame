@@ -4,6 +4,7 @@
 Slime::Slime()
 {	
 	speed = 100.f;
+	points = 100;
 }
 
 void Slime::loadAnimations()

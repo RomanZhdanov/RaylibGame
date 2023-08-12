@@ -12,7 +12,7 @@ void Enemy::update(float delta)
 		if (CheckCollisionRecs(collisionRec, target->getHitbox()))
 		{
 			isAlive = false;
-			target->AddScore(1);
+			target->AddScore(points);
 		}
 	}
 
