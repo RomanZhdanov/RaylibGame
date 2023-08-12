@@ -3,7 +3,7 @@
 
 Goblin::Goblin()
 {	
-	speed = 200.f;
+	speed = 150.f;
 	points = 200;
 }
 
@@ -11,13 +11,13 @@ void Goblin::loadAnimations()
 {
 	auto* idle = new AnimatedSprite{
 		textureManager.get("goblin_idle"),
-		6.f,
+		4.f,
 		6,
 		1
 	};
 	auto* run = new AnimatedSprite{
 		textureManager.get("goblin_run"),
-		6.f,
+		4.f,
 		6,
 		1
 	};

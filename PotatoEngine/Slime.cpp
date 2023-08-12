@@ -11,13 +11,13 @@ void Slime::loadAnimations()
 {
 	auto* idle = new AnimatedSprite{
 		textureManager.get("slime_idle"),
-		6.f,
+		4.f,
 		6,
 		1
 	};
 	auto* run = new AnimatedSprite{
 		textureManager.get("slime_run"),
-		6.f,
+		4.f,
 		6,
 		1
 	};

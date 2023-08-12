@@ -6,13 +6,13 @@ Player::Player()
 {	
 	auto* player = new AnimatedSprite{
 		textureManager.get("player"),
-		4.f,
+		3.f,
 		60,
 		1
 	};
 
 	score = 0;
-	speed = 400.f;
+	speed = 300.f;
 	float animationSpeed = 1.f / 12.f;
 	animations.add("idle", new Animation(player, 59, 59, animationSpeed, true));
 	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
