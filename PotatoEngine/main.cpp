@@ -46,6 +46,10 @@ int main()
 
 		DrawText(TextFormat("Score: %i", knight.score), 10, 10, 20, LIME);
 
+		/*knight.showHitboxRec(true);
+		knight.showCollisionRec(true);
+		enemies.showCollisionRec(true);*/
+
 		knight.draw();
 		enemies.draw();
 

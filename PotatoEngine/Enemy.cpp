@@ -16,11 +16,14 @@ void Enemy::update(float delta)
 		}
 	}
 
-	DrawRectangleLines(
-		collisionRec.x,
-		collisionRec.y,
-		collisionRec.width,
-		collisionRec.height,
-		BLUE
-	);
+	if (collisionRecVisible)
+	{
+		DrawRectangleLines(
+			collisionRec.x,
+			collisionRec.y,
+			collisionRec.width,
+			collisionRec.height,
+			BLUE
+		);
+	}
 }

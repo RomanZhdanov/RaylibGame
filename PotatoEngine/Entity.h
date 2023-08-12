@@ -9,10 +9,12 @@ public:
 	virtual void draw();
 	virtual void setPosition(Vector2 pos) { position = pos; }
 	virtual void setWindow(WindowDimensions win) { window = win; }
+	void showCollisionRec(bool value) { collisionRecVisible = value; }
 	Vector2 getPosition() { return position; }
 	Rectangle getCollisionRec() { return collisionRec; }
 protected:
 	bool isAlive{ true };
+	bool collisionRecVisible{ false };
 	float speed{};
 	Vector2 position{};
 	Vector2 positionLastFrame{};

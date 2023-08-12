@@ -40,21 +40,27 @@ void Player::update(float delta)
 			break;
 	}	
 
-	DrawRectangleLines(
-		hitbox.x,
-		hitbox.y,
-		hitbox.width,
-		hitbox.height,
-		RED
-	);
+	if (hitboxRecVisible)
+	{
+		DrawRectangleLines(
+			hitbox.x,
+			hitbox.y,
+			hitbox.width,
+			hitbox.height,
+			RED
+		);
+	}
 
-	DrawRectangleLines(
-		collisionRec.x,
-		collisionRec.y,
-		collisionRec.width,
-		collisionRec.height,
-		BLUE
-	); 	
+	if (collisionRecVisible)
+	{
+		DrawRectangleLines(
+			collisionRec.x,
+			collisionRec.y,
+			collisionRec.width,
+			collisionRec.height,
+			BLUE
+		);
+	}
 }
 
 void Player::move(float delta)

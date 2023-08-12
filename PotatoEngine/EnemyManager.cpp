@@ -22,6 +22,7 @@ void EnemyManager::draw()
 {
 	for (auto enemy : enemies)
 	{
+		enemy->showCollisionRec(collisionRecVisible);
 		enemy->draw();
 	}
 }
