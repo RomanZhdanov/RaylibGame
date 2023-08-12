@@ -10,13 +10,14 @@ class Player : public Entity
 {
 public:
 	Player();
-	int score;
 	Rectangle getHitbox() { return hitbox; }
 	virtual void update(float delta) override;
 	void showHitboxRec(bool value) { hitboxRecVisible = value; }
 	PlayerState getState() { return state; }
-	void AddScore(int value) { score += value; }
+	void addScore(int value) { score += value; }
+	int getScore() { return score; }
 private:
+	int score{ 0 };
 	bool hitboxRecVisible{ false };
 	void move(float delta);
 	void attack(float delta);

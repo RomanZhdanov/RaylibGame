@@ -44,7 +44,7 @@ int main()
 
 		ClearBackground(LIGHTGRAY);
 
-		DrawText(TextFormat("Score: %i", knight.score), 10, 10, 20, LIME);
+		DrawText(TextFormat("Score: %i", knight.getScore()), 10, 10, 20, LIME);
 
 		/*knight.showHitboxRec(true);
 		knight.showCollisionRec(true);
