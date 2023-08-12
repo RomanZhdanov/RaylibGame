@@ -17,6 +17,7 @@ protected:
 	Vector2 position{};
 	Vector2 positionLastFrame{};
 	Vector2 velocity{};
+	Vector2 direction{};
 	Rectangle collisionRec{};
 	AnimationManager animations{};
 	WindowDimensions window{};

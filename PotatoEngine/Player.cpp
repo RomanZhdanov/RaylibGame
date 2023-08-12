@@ -15,6 +15,10 @@ Player::Player()
 	speed = 400.f;
 	float animationSpeed = 1.f / 12.f;
 	animations.add("idle", new Animation(player, 59, 59, animationSpeed, true));
+	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
+	animations.add("idle_up", new Animation(player, 6, 6, animationSpeed, true));
+	animations.add("idle_left", new Animation(player, 12, 12, animationSpeed, true));
+	animations.add("idle_down", new Animation(player, 18, 18, animationSpeed, true));
 	animations.add("run_right", new Animation(player, 0, 5, animationSpeed, true));
 	animations.add("run_up", new Animation(player, 6, 11, animationSpeed, true));
 	animations.add("run_left", new Animation(player, 12, 17, animationSpeed, true));
@@ -76,11 +80,16 @@ void Player::move(float delta)
 
 	if (Vector2Length(velocity) != 0.0)
 	{
+		direction = velocity;
 		position = Vector2Add(position, Vector2Scale(Vector2Normalize(velocity), speed * delta));
 	}
 	else
 	{
-		animations.set("idle");
+		if (direction.x < 0.f) animations.set("idle_left");
+		else if (direction.x > 0.f) animations.set("idle_right");
+		else if (direction.y < 0.f) animations.set("idle_up");
+		else if (direction.y > 0.f) animations.set("idle_down");
+		else animations.set("idle");
 	}		
 
 	float halfWidth = animations.getWidth() / 2;
@@ -104,28 +113,28 @@ void Player::move(float delta)
 	};
 
 	// left
-	if (velocity.x < 0.f) hitbox = {
+	if (direction.x < 0.f) hitbox = {
 		position.x,
 		position.y + height,
 		width,
 		height
 	};
 	// right
-	else if (velocity.x > 0.f) hitbox = {
+	else if (direction.x > 0.f) hitbox = {
 		position.x + width * 2,
 		position.y + height,
 		width,
 		height
 	};
 	// up
-	else if (velocity.y < 0.f) hitbox = {
+	else if (direction.y < 0.f) hitbox = {
 		position.x + width,
 		position.y,
 		width,
 		height
 	};
 	// down
-	else if (velocity.y > 0.f) hitbox = {
+	else if (direction.y > 0.f) hitbox = {
 		position.x + width,
 		position.y + height * 2,
 		width,
@@ -152,10 +161,10 @@ void Player::move(float delta)
 
 void Player::attack(float delta)
 {
-	if (velocity.x < 0.f) animations.set("attack_left");
-	else if (velocity.x > 0.f) animations.set("attack_right");
-	else if (velocity.y < 0.f) animations.set("attack_up");
-	else if (velocity.y > 0.f) animations.set("attack_down");
+	if (direction.x < 0.f) animations.set("attack_left");
+	else if (direction.x > 0.f) animations.set("attack_right");
+	else if (direction.y < 0.f) animations.set("attack_up");
+	else if (direction.y > 0.f) animations.set("attack_down");
 	else animations.set("attack_down");
 
 	animations.update(delta);
