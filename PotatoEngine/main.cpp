@@ -9,7 +9,7 @@ int main()
 {
 	WindowDimensions window{ 1200, 800 };
 
-	InitWindow(window.width, window.height, "Potato");
+	InitWindow(window.width, window.height, "Killer Fox");
 	
 	LoadTextures();
 
