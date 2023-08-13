@@ -27,10 +27,17 @@ void EnemyManager::draw()
 	}
 }
 
-EnemyManager::~EnemyManager()
+void EnemyManager::deleteAll()
 {
 	for (auto enemy : enemies)
 	{
 		delete enemy;
 	}
+
+	enemies.clear();
+}
+
+EnemyManager::~EnemyManager()
+{
+	deleteAll();
 }

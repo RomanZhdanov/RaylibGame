@@ -44,6 +44,15 @@ int main()
 			knight.update(delta);
 			enemies.update(delta);
 		}
+		else
+		{
+			if (IsKeyDown(KEY_R))
+			{
+				knight.reset();
+				enemies.deleteAll();
+
+			}
+		}
 
 		BeginDrawing();
 
@@ -61,9 +70,12 @@ int main()
 
 		if (!knight.isAlive())
 		{
-			const char* endGameText = "Game Over";
-			int textWidth = MeasureText(endGameText, 60);
-			DrawText(endGameText, window.width / 2 - textWidth / 2, window.height / 2 - 30, 60, RED);
+			const char* gameOverText = "Game Over";
+			const char* resetText = "Press R to strart new game";
+			int gameOverWidth = MeasureText(gameOverText, 60);
+			int resetWidth = MeasureText(resetText, 20);
+			DrawText(gameOverText, window.width / 2 - gameOverWidth / 2, window.height / 2 - 30, 60, RED);
+			DrawText(resetText, window.width / 2 - resetWidth / 2, window.height / 2 + 30, 20, RED);
 		}
 
 		EndDrawing();
