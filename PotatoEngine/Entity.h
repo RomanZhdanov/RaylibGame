@@ -10,7 +10,7 @@ public:
 	virtual void setPosition(Vector2 pos) { position = pos; }
 	virtual void setWindow(WindowDimensions win) { window = win; }
 	void showCollisionRec(bool value) { collisionRecVisible = value; }
-	Vector2 getPosition() { return position; }
+	Vector2 getPosition() { return Vector2{ position.x + animations.getWidth() / 2, position.y + animations.getHeight() / 2 }; }
 	Rectangle getCollisionRec() { return collisionRec; }
 protected:
 	bool isAlive{ true };
