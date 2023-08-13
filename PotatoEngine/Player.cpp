@@ -166,8 +166,8 @@ void Player::move(float delta)
 
 	if (collisionRec.x < 0.f ||
 		collisionRec.y < 0.f ||
-		collisionRec.x > window.width ||
-		collisionRec.y > window.height)
+		collisionRec.x + collisionRec.width > window.width ||
+		collisionRec.y + collisionRec.height > window.height)
 	{
 		undoMovement();
 	}
