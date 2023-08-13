@@ -28,24 +28,26 @@ int main()
 
 	while (!WindowShouldClose())
 	{
-		float delta = GetFrameTime();
+		float delta = GetFrameTime();		
 
-		currentSpawnTime -= delta;
-		if (currentSpawnTime < 0)
+		if (knight.isAlive())
 		{
-			currentSpawnTime = spawnTime;
-			enemies.create("goblin", spawnPosition, &knight, window);
-			enemies.create("slime", spawnPosition, &knight, window);
-		}
+			currentSpawnTime -= delta;
+			
+			if (currentSpawnTime < 0)
+			{
+				currentSpawnTime = spawnTime;
+				enemies.create("goblin", spawnPosition, &knight, window);
+				enemies.create("slime", spawnPosition, &knight, window);
+			}
 
-		knight.update(delta);
-		enemies.update(delta);
+			knight.update(delta);
+			enemies.update(delta);
+		}
 
 		BeginDrawing();
 
 		ClearBackground(LIGHTGRAY);
-
-
 
 		DrawText(TextFormat("Lives: %i", knight.getLives()), 10, 10, 20, hudColor);
 		DrawText(TextFormat("Score: %i", knight.getScore()), window.width - 200, 10, 20, hudColor);
@@ -56,6 +58,13 @@ int main()
 
 		knight.draw();
 		enemies.draw();
+
+		if (!knight.isAlive())
+		{
+			const char* endGameText = "Game Over";
+			int textWidth = MeasureText(endGameText, 60);
+			DrawText(endGameText, window.width / 2 - textWidth / 2, window.height / 2 - 30, 60, RED);
+		}
 
 		EndDrawing();
 	}

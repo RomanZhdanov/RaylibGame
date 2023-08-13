@@ -19,10 +19,11 @@ public:
 	int getScore() { return score; }
 	int getLives() { return lives; }
 	bool isHurting() { return hurting > 0.f; }
+	bool isAlive() { return lives > 0; }
 private:
 	int score{ 0 };
 	int lives{ 4 };
-	float hurtTimeout{ 4.f };
+	float hurtTimeout{ 2.f };
 	float hurting{ 0.f };
 	bool hitboxRecVisible{ false };
 	void move(float delta);
