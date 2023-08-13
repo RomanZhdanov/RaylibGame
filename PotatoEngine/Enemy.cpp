@@ -11,6 +11,8 @@ void Enemy::update(float delta)
 	{
 		if (!target->isHurting())
 			target->takeDamage();
+		
+		undoMovement();
 	}
 
 	if (target->getState() == PlayerState::ATTACK)
