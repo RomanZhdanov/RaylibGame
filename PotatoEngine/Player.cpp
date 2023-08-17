@@ -12,9 +12,10 @@ Player::Player()
 	};
 
 	score = 0;
-	speed = 300.f;
+	speed = 250.f;
+	rollSpeed = speed * 1.8;
 	float animationSpeed = 1.f / 12.f;
-	animations.add("idle", new Animation(player, 59, 59, animationSpeed, true));
+	animations.add("idle", new Animation(player, 18, 18, animationSpeed, true));
 	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
 	animations.add("idle_up", new Animation(player, 6, 6, animationSpeed, true));
 	animations.add("idle_left", new Animation(player, 12, 12, animationSpeed, true));
@@ -27,6 +28,10 @@ Player::Player()
 	animations.add("attack_up", new Animation(player, 28, 31, animationSpeed, false));
 	animations.add("attack_left", new Animation(player, 32, 35, animationSpeed, false));
 	animations.add("attack_down", new Animation(player, 36, 39, animationSpeed, false));
+	animations.add("roll_right", new Animation(player, 40, 44, animationSpeed, false));
+	animations.add("roll_up", new Animation(player, 45, 49, animationSpeed, false));
+	animations.add("roll_left", new Animation(player, 50, 54, animationSpeed, false));
+	animations.add("roll_down", new Animation(player, 55, 59, animationSpeed, false));
 }
 
 void Player::update(float delta)
@@ -34,6 +39,9 @@ void Player::update(float delta)
 	switch (state) {
 		case PlayerState::MOVE:
 			move(delta);
+			break;
+		case PlayerState::ROLL:
+			roll(delta);
 			break;
 		case PlayerState::ATTACK:
 			attack(delta);
@@ -87,6 +95,11 @@ void Player::move(float delta)
 	{
 		state = PlayerState::ATTACK;
 	}
+
+	if (IsKeyPressed(KEY_Z))
+	{
+		state = PlayerState::ROLL;
+	}
 	
 	if (velocity.x < 0.f) animations.set("run_left");
 	else if (velocity.x > 0.f) animations.set("run_right");
@@ -109,6 +122,15 @@ void Player::move(float delta)
 		else animations.set("idle");
 	}		
 
+	setRecs();
+	checkBorders();	
+	
+	animations.setPosition(position);
+	animations.update(delta);
+}
+
+void Player::setRecs()
+{
 	float halfWidth = animations.getWidth() / 2;
 	float halfHeight = animations.getHeight() / 2;
 
@@ -163,7 +185,10 @@ void Player::move(float delta)
 		width,
 		height
 	};
+}
 
+void Player::checkBorders()
+{
 	if (collisionRec.x < 0.f ||
 		collisionRec.y < 0.f ||
 		collisionRec.x + collisionRec.width > window.width ||
@@ -171,9 +196,30 @@ void Player::move(float delta)
 	{
 		undoMovement();
 	}
-	
+}
+
+void Player::roll(float delta)
+{
+	if (direction.x < 0.f) animations.set("roll_left");
+	else if (direction.x > 0.f) animations.set("roll_right");
+	else if (direction.y < 0.f) animations.set("roll_up");
+	else if (direction.y > 0.f) animations.set("roll_down");
+	else animations.set("roll_down");
+
+	positionLastFrame = position;
+	position = Vector2Add(position, Vector2Scale(Vector2Normalize(direction), rollSpeed * delta));
+
+	setRecs();
+	checkBorders();
+
 	animations.setPosition(position);
 	animations.update(delta);
+
+	if (animations.isFinished())
+	{
+		animations.reset();
+		state = PlayerState::MOVE;
+	}
 }
 
 void Player::attack(float delta)
@@ -183,7 +229,7 @@ void Player::attack(float delta)
 	else if (direction.y < 0.f) animations.set("attack_up");
 	else if (direction.y > 0.f) animations.set("attack_down");
 	else animations.set("attack_down");
-
+	
 	animations.update(delta);
 
 	if (animations.isFinished())

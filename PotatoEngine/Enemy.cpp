@@ -9,7 +9,7 @@ void Enemy::update(float delta)
 
 	if (CheckCollisionRecs(collisionRec, target->getCollisionRec()))
 	{
-		if (!target->isHurting())
+		if (!target->isHurting() && target->getState() != PlayerState::ROLL)
 			target->takeDamage();
 		
 		undoMovement();

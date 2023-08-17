@@ -3,6 +3,7 @@
 
 enum class PlayerState {
 	MOVE,
+	ROLL,
 	ATTACK
 };
 
@@ -26,9 +27,13 @@ private:
 	int livesLeft{ 4 };
 	float hurtTimeout{ 2.f };
 	float hurting{ 0.f };
+	float rollSpeed{ };
 	bool hitboxRecVisible{ false };
 	void move(float delta);
+	void roll(float delta);
 	void attack(float delta);
+	void setRecs();
+	void checkBorders();
 	Rectangle hitbox{};
 	PlayerState state{ PlayerState::MOVE };
 };
