@@ -13,7 +13,7 @@ Player::Player()
 
 	score = 0;
 	speed = 250.f;
-	rollSpeed = speed * 1.8;
+	rollSpeed = speed * 2.8;
 	float animationSpeed = 1.f / 12.f;
 	animations.add("idle", new Animation(player, 18, 18, animationSpeed, true));
 	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
@@ -84,22 +84,7 @@ void Player::update(float delta)
 
 void Player::move(float delta)
 {
-	velocity = {};
-
-	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
-	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
-	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
-	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
-
-	if (IsKeyPressed(KEY_SPACE))
-	{
-		state = PlayerState::ATTACK;
-	}
-
-	if (IsKeyPressed(KEY_Z))
-	{
-		state = PlayerState::ROLL;
-	}
+	updateInput();
 	
 	if (velocity.x < 0.f) animations.set("run_left");
 	else if (velocity.x > 0.f) animations.set("run_right");
@@ -127,6 +112,53 @@ void Player::move(float delta)
 	
 	animations.setPosition(position);
 	animations.update(delta);
+}
+
+void Player::updateInput()
+{
+	velocity = {};
+
+	if (IsGamepadAvailable(gamepad))
+	{
+		velocity.x = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_X);
+		velocity.y = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_Y);
+
+		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_UP))
+			velocity.y -= 1.0;
+		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))
+			velocity.x += 1.0;
+		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
+			velocity.y += 1.0;
+		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_LEFT))
+			velocity.x -= 1.0;
+
+		if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
+		{
+			state = PlayerState::ROLL;
+		}
+
+		if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_LEFT))
+		{
+			state = PlayerState::ATTACK;
+		}
+	}
+	else
+	{
+		if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
+		if (IsKeyDown(KEY_D)) velocity.x += 1.0;
+		if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
+		if (IsKeyDown(KEY_S)) velocity.y += 1.0;
+
+		if (IsKeyPressed(KEY_SPACE))
+		{
+			state = PlayerState::ATTACK;
+		}
+
+		if (IsKeyPressed(KEY_Z))
+		{
+			state = PlayerState::ROLL;
+		}
+	}
 }
 
 void Player::setRecs()
