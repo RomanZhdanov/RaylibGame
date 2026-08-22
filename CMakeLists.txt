@@ -48,3 +48,10 @@ add_executable(PotatoEngine
 
 target_include_directories(PotatoEngine PRIVATE PotatoEngine)
 target_link_libraries(PotatoEngine PRIVATE raylib)
+
+add_custom_command(TARGET PotatoEngine POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+          "${CMAKE_CURRENT_SOURCE_DIR}/PotatoEngine/assets"
+          "$<TARGET_FILE_DIR:PotatoEngine>/assets"
+  COMMENT "Copying assets next to the executable"
+)
