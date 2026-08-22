@@ -9,26 +9,31 @@ codebase), so idiomatic-C++ concerns are secondary to keeping the game working.
 
 ## Build
 
-Windows/MSVC only. There is no CMake, no test suite, and no linter configured.
-
-- **Solution:** `PotatoEngine.sln`, single project `PotatoEngine/PotatoEngine.vcxproj`
-- **Toolset:** v143, configurations `Debug|Release` × `Win32|x64`
-- **Language standard:** unset in the project file, so it defaults to C++14
-- **Warnings:** `Level3`
+CMake (`Ninja Multi-Config` generator), built and tested on Linux/GCC. raylib 5.5 is
+fetched and built from source via `FetchContent` — nothing to install system-wide, nothing
+pinned outside the repo.
 
 ```
-msbuild PotatoEngine.sln /p:Configuration=Release /p:Platform=x64
+cmake --preset default          # configure — only needed once, or after CMakeLists.txt changes
+cmake --build --preset debug    # or --preset release
 ```
 
-raylib is resolved through **vcpkg's user-wide MSBuild integration** — the `.vcxproj`
-contains no `AdditionalIncludeDirectories` or `AdditionalDependencies` for it. If
-`raylib.h` fails to resolve, the fix is `vcpkg integrate install`, not a project edit.
+- **Language standard:** `CMAKE_CXX_STANDARD 14`, required, no compiler extensions
+- **Sources:** `src/`
+- **Assets:** `assets/` (repo root) — a `POST_BUILD` step copies this next to the
+  executable in each config's output directory
+- **Output:** `build/Debug/PotatoEngine` or `build/Release/PotatoEngine`
 
 **Working directory matters.** `GameResources.cpp` loads textures via relative paths
-(`assets/...`), and the assets live in `PotatoEngine/assets/`. The build output lands
-elsewhere (`x64/Debug/`, `Release/`), so launching the `.exe` from its output directory
-fails to find textures. Run with the working directory set to `PotatoEngine/` (which is
-what Visual Studio's F5 does by default).
+(`assets/...`), resolved against the process's working directory, not the executable's own
+location. Run from inside the config directory:
+
+```
+(cd build/Debug && ./PotatoEngine)
+```
+
+A Zed debug config is checked in at `.zed/debug.json` and builds + launches with the
+correct working directory already set.
 
 ## Architecture
 
@@ -65,7 +70,7 @@ a `switch` in `Player::update()` to `move()` / `roll()` / `attack()`.
 Animations follow a **`{action}_{direction}` naming convention** — `run_left`,
 `attack_up`, `roll_down`, `idle_right` — selected by inspecting the sign of `direction.x`
 then `direction.y`. All of them index into a single 60-frame horizontal strip
-(`assets/Player.png`) with hardcoded index ranges registered in the `Player` constructor.
+(`assets/player.png`) with hardcoded index ranges registered in the `Player` constructor.
 Adding a player animation means adding frames to that strip and a matching
 `animations.add(...)` line with the right indices.
 
@@ -106,15 +111,11 @@ would break this silently.
 
 - **Ownership is raw `new` throughout**, with no smart pointers. `AnimationManager` has
   no destructor, so animations and their sprites are not freed. Enemy spawns leak.
-- **Map keys are `const char*`, not `std::string`**, in both `AnimationManager` and
-  `TextureManager` — lookups compare *pointer addresses*, not text. This works across
-  translation units only because the Release configs set `EnableCOMDATFolding`
-  (`/OPT:ICF`) to merge identical literals; the Debug configs do not. Keep this in mind
-  when adding animation or texture names used from more than one `.cpp`.
-- **Map lookups use `operator[]`**, so an unknown key silently inserts a default entry
-  (a zeroed `Texture2D`, or a null `Animation*`) rather than reporting an error. A typo'd
-  animation name produces a null-deref on the next `update()`; a typo'd texture name
-  produces an invisible sprite.
+- **Map lookups use `operator[]`** in both `AnimationManager::set()` and
+  `TextureManager::get()`, so an unknown key silently inserts a default entry (a zeroed
+  `Texture2D`, or a null `Animation*`) rather than reporting an error. A typo'd animation
+  name produces a null-deref on the next `update()`; a typo'd texture name produces an
+  invisible sprite.
 - **`position` is the top-left corner, but `getPosition()` returns the center**
   (`Entity` and `Sprite` both do this). `setPosition(getPosition())` is not a no-op.
 - **`update()` methods draw.** `Player::update()` and `Enemy::update()` call
