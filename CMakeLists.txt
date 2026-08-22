@@ -23,41 +23,42 @@ set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(raylib)
 
 add_executable(PotatoEngine
-  PotatoEngine/main.cpp
-  PotatoEngine/AnimatedSprite.h
-  PotatoEngine/AnimatedSprite.cpp
-  PotatoEngine/Animation.h
-  PotatoEngine/Animation.cpp
-  PotatoEngine/AnimationManager.h
-  PotatoEngine/AnimationManager.cpp
-  PotatoEngine/Enemy.h
-  PotatoEngine/Enemy.cpp
-  PotatoEngine/EnemyFactory.h
-  PotatoEngine/EnemyFactory.cpp
-  PotatoEngine/EnemyManager.h
-  PotatoEngine/EnemyManager.cpp
-  PotatoEngine/Entity.h
-  PotatoEngine/Entity.cpp
-  PotatoEngine/GameResources.h
-  PotatoEngine/GameResources.cpp
-  PotatoEngine/Goblin.h
-  PotatoEngine/Goblin.cpp
-  PotatoEngine/Player.h
-  PotatoEngine/Player.cpp
-  PotatoEngine/Slime.h
-  PotatoEngine/Slime.cpp
-  PotatoEngine/Sprite.h
-  PotatoEngine/Sprite.cpp
-  PotatoEngine/TextureManager.h
-  PotatoEngine/TextureManager.cpp
+  src/main.cpp
+  src/AnimatedSprite.h
+  src/AnimatedSprite.cpp
+  src/Animation.h
+  src/Animation.cpp
+  src/AnimationManager.h
+  src/AnimationManager.cpp
+  src/Enemy.h
+  src/Enemy.cpp
+  src/EnemyFactory.h
+  src/EnemyFactory.cpp
+  src/EnemyManager.h
+  src/EnemyManager.cpp
+  src/Entity.h
+  src/Entity.cpp
+  src/GameResources.h
+  src/GameResources.cpp
+  src/Goblin.h
+  src/Goblin.cpp
+  src/Player.h
+  src/Player.cpp
+  src/Slime.h
+  src/Slime.cpp
+  src/Sprite.h
+  src/Sprite.cpp
+  src/TextureManager.h
+  src/TextureManager.cpp
+  src/WindowDimensions.h
 )
 
-target_include_directories(PotatoEngine PRIVATE PotatoEngine)
+target_include_directories(PotatoEngine PRIVATE src)
 target_link_libraries(PotatoEngine PRIVATE raylib)
 
 add_custom_command(TARGET PotatoEngine POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory
-          "${CMAKE_CURRENT_SOURCE_DIR}/PotatoEngine/assets"
+          "${CMAKE_CURRENT_SOURCE_DIR}/src/assets"
           "$<TARGET_FILE_DIR:PotatoEngine>/assets"
   COMMENT "Copying assets next to the executable"
 )
