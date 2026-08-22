@@ -12,7 +12,7 @@ int main()
 	WindowDimensions window{ 1200, 800 };
 
 	InitWindow(window.width, window.height, "Killer Fox");
-	
+
 	LoadTextures();
 
 	Player knight;
@@ -22,7 +22,7 @@ int main()
 	float spawnTime{ 2.f };
 	float currentSpawnTime{};
 	Vector2 spawnPosition{
-		window.width / 2,
+		window.width / 2.f,
 		window.height
 	};
 
@@ -31,12 +31,12 @@ int main()
 
 	while (!WindowShouldClose())
 	{
-		float delta = GetFrameTime();		
+		float delta = GetFrameTime();
 
 		if (knight.isAlive())
 		{
 			currentSpawnTime -= delta;
-			
+
 			if (currentSpawnTime < 0)
 			{
 				currentSpawnTime = spawnTime;
