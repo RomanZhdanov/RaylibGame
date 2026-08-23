@@ -3,6 +3,7 @@
 
 enum class PlayerState {
 	MOVE,
+	ROLL,
 	ATTACK
 };
 
@@ -10,6 +11,7 @@ class Player : public Entity
 {
 public:
 	Player();
+	void setGamepad(int _gamepad) { gamepad = _gamepad; }
 	Rectangle getHitbox() { return hitbox; }
 	virtual void update(float delta) override;
 	void showHitboxRec(bool value) { hitboxRecVisible = value; }
@@ -22,13 +24,19 @@ public:
 	bool isHurting() { return hurting > 0.f; }
 	bool isAlive() { return livesLeft > 0; }
 private:
+	int gamepad{};
 	int score{ 0 };
 	int livesLeft{ 4 };
 	float hurtTimeout{ 2.f };
 	float hurting{ 0.f };
+	float rollSpeed{ };
 	bool hitboxRecVisible{ false };
 	void move(float delta);
+	void roll(float delta);
 	void attack(float delta);
+	void setRecs();
+	void checkBorders();
+	void updateInput();
 	Rectangle hitbox{};
 	PlayerState state{ PlayerState::MOVE };
 };

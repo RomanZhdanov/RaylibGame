@@ -1,6 +1,7 @@
 #pragma once
 #include "Animation.h"
 #include <map>
+#include <string>
 
 class AnimationManager
 {
@@ -18,6 +19,6 @@ public:
 	float getWidth() { return activeAnimation->width; }
 	float getHeight() { return activeAnimation->height; }
 private:
-	std::map<const char*, Animation*> animations{};
+	std::map<std::string, Animation*> animations{};
 	Animation* activeAnimation{};
 };
