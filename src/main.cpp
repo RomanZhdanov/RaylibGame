@@ -4,6 +4,7 @@
 #include "EnemyManager.h"
 #include <vector>
 #include "WindowDimensions.h"
+#include "Version.h"
 
 int main()
 {
@@ -23,7 +24,7 @@ int main()
 	float currentSpawnTime{};
 	Vector2 spawnPosition{
 		window.width / 2.f,
-		window.height
+		static_cast<float>(window.height)
 	};
 
 	Color hudColor = LIME;
@@ -76,6 +77,7 @@ int main()
 
 		DrawText(TextFormat("Lives: %i", knight.getLives()), 10, 10, 20, hudColor);
 		DrawText(TextFormat("Score: %i", knight.getScore()), window.width - 200, 10, 20, hudColor);
+		DrawText(TextFormat("v%s", GAME_VERSION), 10, window.height - 20, 10, hudColor);
 
 		/*knight.showHitboxRec(true);
 		knight.showCollisionRec(true);

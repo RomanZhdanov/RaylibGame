@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(PotatoEngine LANGUAGES CXX)
+project(PotatoEngine VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -21,6 +21,12 @@ FetchContent_Declare(raylib
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(raylib)
+
+configure_file(
+  "${CMAKE_SOURCE_DIR}/src/Version.h.in"
+  "${CMAKE_BINARY_DIR}/generated/Version.h"
+  @ONLY
+)
 
 add_executable(PotatoEngine
   src/main.cpp
@@ -53,7 +59,7 @@ add_executable(PotatoEngine
   src/WindowDimensions.h
 )
 
-target_include_directories(PotatoEngine PRIVATE src)
+target_include_directories(PotatoEngine PRIVATE src "${CMAKE_BINARY_DIR}/generated")
 target_link_libraries(PotatoEngine PRIVATE raylib)
 
 add_custom_command(TARGET PotatoEngine POST_BUILD
@@ -62,3 +68,6 @@ add_custom_command(TARGET PotatoEngine POST_BUILD
           "$<TARGET_FILE_DIR:PotatoEngine>/assets"
   COMMENT "Copying assets next to the executable"
 )
+
+install(TARGETS PotatoEngine RUNTIME DESTINATION .)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION assets)
