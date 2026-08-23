@@ -12,10 +12,9 @@ Player::Player()
 	};
 
 	score = 0;
-	speed = 250.f;
-	rollSpeed = speed * 2.8;
+	speed = 300.f;
 	float animationSpeed = 1.f / 12.f;
-	animations.add("idle", new Animation(player, 18, 18, animationSpeed, true));
+	animations.add("idle", new Animation(player, 59, 59, animationSpeed, true));
 	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
 	animations.add("idle_up", new Animation(player, 6, 6, animationSpeed, true));
 	animations.add("idle_left", new Animation(player, 12, 12, animationSpeed, true));
@@ -28,10 +27,6 @@ Player::Player()
 	animations.add("attack_up", new Animation(player, 28, 31, animationSpeed, false));
 	animations.add("attack_left", new Animation(player, 32, 35, animationSpeed, false));
 	animations.add("attack_down", new Animation(player, 36, 39, animationSpeed, false));
-	animations.add("roll_right", new Animation(player, 40, 44, animationSpeed, false));
-	animations.add("roll_up", new Animation(player, 45, 49, animationSpeed, false));
-	animations.add("roll_left", new Animation(player, 50, 54, animationSpeed, false));
-	animations.add("roll_down", new Animation(player, 55, 59, animationSpeed, false));
 }
 
 void Player::update(float delta)
@@ -39,9 +34,6 @@ void Player::update(float delta)
 	switch (state) {
 		case PlayerState::MOVE:
 			move(delta);
-			break;
-		case PlayerState::ROLL:
-			roll(delta);
 			break;
 		case PlayerState::ATTACK:
 			attack(delta);
@@ -84,7 +76,17 @@ void Player::update(float delta)
 
 void Player::move(float delta)
 {
-	updateInput();
+	velocity = {};
+
+	if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
+	if (IsKeyDown(KEY_D)) velocity.x += 1.0;
+	if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
+	if (IsKeyDown(KEY_S)) velocity.y += 1.0;
+
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		state = PlayerState::ATTACK;
+	}
 	
 	if (velocity.x < 0.f) animations.set("run_left");
 	else if (velocity.x > 0.f) animations.set("run_right");
@@ -107,62 +109,6 @@ void Player::move(float delta)
 		else animations.set("idle");
 	}		
 
-	setRecs();
-	checkBorders();	
-	
-	animations.setPosition(position);
-	animations.update(delta);
-}
-
-void Player::updateInput()
-{
-	velocity = {};
-
-	if (IsGamepadAvailable(gamepad))
-	{
-		velocity.x = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_X);
-		velocity.y = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_Y);
-
-		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_UP))
-			velocity.y -= 1.0;
-		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))
-			velocity.x += 1.0;
-		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
-			velocity.y += 1.0;
-		if (IsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_FACE_LEFT))
-			velocity.x -= 1.0;
-
-		if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
-		{
-			state = PlayerState::ROLL;
-		}
-
-		if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_LEFT))
-		{
-			state = PlayerState::ATTACK;
-		}
-	}
-	else
-	{
-		if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
-		if (IsKeyDown(KEY_D)) velocity.x += 1.0;
-		if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
-		if (IsKeyDown(KEY_S)) velocity.y += 1.0;
-
-		if (IsKeyPressed(KEY_SPACE))
-		{
-			state = PlayerState::ATTACK;
-		}
-
-		if (IsKeyPressed(KEY_Z))
-		{
-			state = PlayerState::ROLL;
-		}
-	}
-}
-
-void Player::setRecs()
-{
 	float halfWidth = animations.getWidth() / 2;
 	float halfHeight = animations.getHeight() / 2;
 
@@ -217,10 +163,7 @@ void Player::setRecs()
 		width,
 		height
 	};
-}
 
-void Player::checkBorders()
-{
 	if (collisionRec.x < 0.f ||
 		collisionRec.y < 0.f ||
 		collisionRec.x + collisionRec.width > window.width ||
@@ -228,30 +171,9 @@ void Player::checkBorders()
 	{
 		undoMovement();
 	}
-}
-
-void Player::roll(float delta)
-{
-	if (direction.x < 0.f) animations.set("roll_left");
-	else if (direction.x > 0.f) animations.set("roll_right");
-	else if (direction.y < 0.f) animations.set("roll_up");
-	else if (direction.y > 0.f) animations.set("roll_down");
-	else animations.set("roll_down");
-
-	positionLastFrame = position;
-	position = Vector2Add(position, Vector2Scale(Vector2Normalize(direction), rollSpeed * delta));
-
-	setRecs();
-	checkBorders();
-
+	
 	animations.setPosition(position);
 	animations.update(delta);
-
-	if (animations.isFinished())
-	{
-		animations.reset();
-		state = PlayerState::MOVE;
-	}
 }
 
 void Player::attack(float delta)
@@ -261,7 +183,7 @@ void Player::attack(float delta)
 	else if (direction.y < 0.f) animations.set("attack_up");
 	else if (direction.y > 0.f) animations.set("attack_down");
 	else animations.set("attack_down");
-	
+
 	animations.update(delta);
 
 	if (animations.isFinished())

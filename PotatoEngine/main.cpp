@@ -7,22 +7,19 @@
 
 int main()
 {
-	int gamepad = 0;
-
 	WindowDimensions window{ 1200, 800 };
 
 	InitWindow(window.width, window.height, "Killer Fox");
-
+	
 	LoadTextures();
 
 	Player knight;
 	knight.setWindow(window);
-	knight.setGamepad(gamepad);
 
 	float spawnTime{ 2.f };
 	float currentSpawnTime{};
 	Vector2 spawnPosition{
-		window.width / 2.f,
+		window.width / 2,
 		window.height
 	};
 
@@ -31,12 +28,12 @@ int main()
 
 	while (!WindowShouldClose())
 	{
-		float delta = GetFrameTime();
+		float delta = GetFrameTime();		
 
 		if (knight.isAlive())
 		{
 			currentSpawnTime -= delta;
-
+			
 			if (currentSpawnTime < 0)
 			{
 				currentSpawnTime = spawnTime;
@@ -49,24 +46,11 @@ int main()
 		}
 		else
 		{
-			bool reset = false;
-
-			if (IsGamepadAvailable(gamepad))
-			{
-				if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
-				{
-					reset = true;
-				}
-			}
-			else if (IsKeyPressed(KEY_R))
-			{
-				reset = true;
-			}
-
-			if (reset)
+			if (IsKeyDown(KEY_R))
 			{
 				knight.reset();
 				enemies.deleteAll();
+
 			}
 		}
 
@@ -87,17 +71,7 @@ int main()
 		if (!knight.isAlive())
 		{
 			const char* gameOverText = "Game Over";
-			const char* resetText{};
-
-			if (IsGamepadAvailable(gamepad))
-			{
-				resetText = "Press A button to strart new game";
-			}
-			else
-			{
-				resetText = "Press R key to strart new game";
-			}
-
+			const char* resetText = "Press R to strart new game";
 			int gameOverWidth = MeasureText(gameOverText, 60);
 			int resetWidth = MeasureText(resetText, 20);
 			DrawText(gameOverText, window.width / 2 - gameOverWidth / 2, window.height / 2 - 30, 60, RED);
