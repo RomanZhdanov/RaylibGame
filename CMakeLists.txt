@@ -68,3 +68,6 @@ add_custom_command(TARGET PotatoEngine POST_BUILD
           "$<TARGET_FILE_DIR:PotatoEngine>/assets"
   COMMENT "Copying assets next to the executable"
 )
+
+install(TARGETS PotatoEngine RUNTIME DESTINATION .)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/assets/" DESTINATION assets)
