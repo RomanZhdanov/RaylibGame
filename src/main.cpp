@@ -24,7 +24,7 @@ int main()
 	float currentSpawnTime{};
 	Vector2 spawnPosition{
 		window.width / 2.f,
-		window.height
+		static_cast<float>(window.height)
 	};
 
 	Color hudColor = LIME;
