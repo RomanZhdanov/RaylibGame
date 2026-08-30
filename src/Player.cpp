@@ -119,8 +119,10 @@ void Player::updateInput()
 {
 	velocity = {};
 
-	if (IsGamepadAvailable(gamepad))
+	if (input->gamepadIsActive())
 	{
+	    int gamepad = input->getGamepad();
+
 		velocity.x = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_X);
 		velocity.y = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_Y);
 
