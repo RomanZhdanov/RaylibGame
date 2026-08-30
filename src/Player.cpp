@@ -1,9 +1,10 @@
 #include "Player.h"
 #include "GameResources.h"
+#include "raylib.h"
 #include "raymath.h"
 
 Player::Player()
-{	
+{
 	auto* player = new AnimatedSprite{
 		textureManager.get("player"),
 		3.f,
@@ -46,7 +47,7 @@ void Player::update(float delta)
 		case PlayerState::ATTACK:
 			attack(delta);
 			break;
-	}	
+	}
 
 	if (isHurting())
 	{
@@ -85,7 +86,7 @@ void Player::update(float delta)
 void Player::move(float delta)
 {
 	updateInput();
-	
+
 	if (velocity.x < 0.f) animations.set("run_left");
 	else if (velocity.x > 0.f) animations.set("run_right");
 	else if (velocity.y < 0.f) animations.set("run_up");
@@ -105,11 +106,11 @@ void Player::move(float delta)
 		else if (direction.y < 0.f) animations.set("idle_up");
 		else if (direction.y > 0.f) animations.set("idle_down");
 		else animations.set("idle");
-	}		
+	}
 
 	setRecs();
-	checkBorders();	
-	
+	checkBorders();
+
 	animations.setPosition(position);
 	animations.update(delta);
 }
@@ -118,8 +119,10 @@ void Player::updateInput()
 {
 	velocity = {};
 
-	if (IsGamepadAvailable(gamepad))
+	if (input->gamepadIsActive())
 	{
+	    int gamepad = input->getGamepad();
+
 		velocity.x = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_X);
 		velocity.y = GetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_Y);
 
@@ -144,10 +147,10 @@ void Player::updateInput()
 	}
 	else
 	{
-		if (IsKeyDown(KEY_A)) velocity.x -= 1.0;
-		if (IsKeyDown(KEY_D)) velocity.x += 1.0;
-		if (IsKeyDown(KEY_W)) velocity.y -= 1.0;
-		if (IsKeyDown(KEY_S)) velocity.y += 1.0;
+		if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) velocity.x -= 1.0;
+		if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) velocity.x += 1.0;
+		if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) velocity.y -= 1.0;
+		if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) velocity.y += 1.0;
 
 		if (IsKeyPressed(KEY_SPACE))
 		{
@@ -261,7 +264,7 @@ void Player::attack(float delta)
 	else if (direction.y < 0.f) animations.set("attack_up");
 	else if (direction.y > 0.f) animations.set("attack_down");
 	else animations.set("attack_down");
-	
+
 	animations.update(delta);
 
 	if (animations.isFinished())

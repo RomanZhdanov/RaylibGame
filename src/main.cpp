@@ -2,13 +2,12 @@
 #include "Player.h"
 #include "GameResources.h"
 #include "EnemyManager.h"
-#include <vector>
 #include "WindowDimensions.h"
 #include "Version.h"
 
 int main()
 {
-	int gamepad = 0;
+	ChangeDirectory(GetApplicationDirectory());
 
 	WindowDimensions window{ 1200, 800 };
 
@@ -16,9 +15,10 @@ int main()
 
 	LoadTextures();
 
+    InputSource input;
 	Player knight;
 	knight.setWindow(window);
-	knight.setGamepad(gamepad);
+	knight.setInput(&input);
 
 	float spawnTime{ 2.f };
 	float currentSpawnTime{};
@@ -33,6 +33,7 @@ int main()
 	while (!WindowShouldClose())
 	{
 		float delta = GetFrameTime();
+		input.update();
 
 		if (knight.isAlive())
 		{
@@ -52,9 +53,9 @@ int main()
 		{
 			bool reset = false;
 
-			if (IsGamepadAvailable(gamepad))
+			if (input.gamepadIsActive())
 			{
-				if (IsGamepadButtonPressed(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
+				if (IsGamepadButtonPressed(input.getGamepad(), GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
 				{
 					reset = true;
 				}
@@ -91,7 +92,7 @@ int main()
 			const char* gameOverText = "Game Over";
 			const char* resetText{};
 
-			if (IsGamepadAvailable(gamepad))
+			if (input.gamepadIsActive())
 			{
 				resetText = "Press A button to strart new game";
 			}

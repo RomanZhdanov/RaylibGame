@@ -21,23 +21,26 @@ against — see the `Install raylib system dependencies` step in
 
 ## Run
 
-Textures are loaded through paths relative to the working directory, and the build copies
-`assets/` next to the executable, so run it from its own output directory:
+The build copies `assets/` next to the executable, and the executable switches to its own
+directory on startup, so it can be launched from anywhere:
 
 ```
-(cd build/Release && ./PotatoEngine)
+./build/Release/PotatoEngine
 ```
 
 ## Controls
 
-|                          | Keyboard        | Gamepad             |
-| ------------------------ | --------------- | ------------------- |
-| Move                     | `W` `A` `S` `D` | left stick / d-pad  |
-| Attack                   | `Space`         | X / square          |
-| Roll (i-frames)          | `Z`             | A / cross           |
-| Restart after game over  | `R`             | A / cross           |
+|                          | Keyboard                      | Gamepad             |
+| ------------------------ | ----------------------------- | ------------------- |
+| Move                     | `W` `A` `S` `D` / arrow keys  | left stick / d-pad  |
+| Attack                   | `Space`                       | X / square          |
+| Roll (i-frames)          | `Z`                           | A / cross           |
+| Restart after game over  | `R`                           | A / cross           |
 
-A gamepad is auto-detected and takes over from the keyboard when one is connected.
+Control follows whichever device you last used — press a key and it's the keyboard, use
+the stick or a button and it's the gamepad. Merely having a pad connected doesn't switch
+anything, because on Linux raylib reports a laptop touchpad as a gamepad, and switching on
+presence would lock the keyboard out.
 
 ## Layout
 

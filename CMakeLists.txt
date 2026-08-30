@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(PotatoEngine VERSION 0.1.0 LANGUAGES CXX)
+project(PotatoEngine VERSION 0.1.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -46,6 +46,8 @@ add_executable(PotatoEngine
   src/Entity.cpp
   src/GameResources.h
   src/GameResources.cpp
+  src/InputSource.h
+  src/InputSource.cpp
   src/Goblin.h
   src/Goblin.cpp
   src/Player.h
