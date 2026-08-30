@@ -9,6 +9,8 @@ int main()
 {
 	int gamepad = -1;
 
+	ChangeDirectory(GetApplicationDirectory());
+
 	WindowDimensions window{ 1200, 800 };
 
 	InitWindow(window.width, window.height, "Killer Fox");
