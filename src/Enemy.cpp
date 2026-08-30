@@ -7,11 +7,11 @@ void Enemy::update(float delta)
 	velocity = Vector2Subtract(target->getPosition(), getPosition());
 	Entity::update(delta);
 
-	if (CheckCollisionRecs(collisionRec, target->getCollisionRec()))
+	if (CheckCollisionRecs(collisionRec, target->getHurtbox()))
 	{
 		if (!target->isHurting() && target->getState() != PlayerState::ROLL)
 			target->takeDamage();
-		
+
 		undoMovement();
 	}
 
@@ -21,7 +21,7 @@ void Enemy::update(float delta)
 		{
 			isAlive = false;
 			target->addScore(points);
-		}		
+		}
 	}
 
 	if (collisionRecVisible)

@@ -14,8 +14,11 @@ public:
 	Player();
 	void setInput(InputSource* _input) { input = _input; }
 	Rectangle getHitbox() { return hitbox; }
+	Rectangle getHurtbox() { return hurtbox; }
 	virtual void update(float delta) override;
+	void draw() override;
 	void showHitboxRec(bool value) { hitboxRecVisible = value; }
+	void showHurtboxRec(bool value) { hurtboxRecVisible = value; }
 	void takeDamage() { livesLeft -= 1; hurting = hurtTimeout; }
 	void reset() { livesLeft = 4; hurting = 0.f; score = 0; position = Vector2{}; direction = Vector2{}; state = PlayerState::MOVE; }
 	PlayerState getState() { return state; }
@@ -32,6 +35,7 @@ private:
 	float hurting{ 0.f };
 	float rollSpeed{ };
 	bool hitboxRecVisible{ false };
+	bool hurtboxRecVisible{ false };
 	void move(float delta);
 	void roll(float delta);
 	void attack(float delta);
@@ -39,5 +43,6 @@ private:
 	void checkBorders();
 	void updateInput();
 	Rectangle hitbox{};
+	Rectangle hurtbox{};
 	PlayerState state{ PlayerState::MOVE };
 };

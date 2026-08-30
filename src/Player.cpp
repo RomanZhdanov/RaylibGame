@@ -59,6 +59,11 @@ void Player::update(float delta)
 		hurting = 0.f;
 		animations.setColor(WHITE);
 	}
+}
+
+void Player::draw()
+{
+	Entity::draw();
 
 	if (hitboxRecVisible)
 	{
@@ -68,6 +73,17 @@ void Player::update(float delta)
 			hitbox.width,
 			hitbox.height,
 			RED
+		);
+	}
+
+	if (hurtboxRecVisible)
+	{
+	    DrawRectangleLines(
+			hurtbox.x,
+			hurtbox.y,
+			hurtbox.width,
+			hurtbox.height,
+			YELLOW
 		);
 	}
 
@@ -184,6 +200,13 @@ void Player::setRecs()
 		position.y + height,
 		width,
 		height
+	};
+
+	hurtbox = {
+	    position.x + width + width / 4,
+		position.y + height + height / 4,
+		width / 2,
+		height / 2
 	};
 
 	// left
