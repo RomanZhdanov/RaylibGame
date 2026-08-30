@@ -22,9 +22,11 @@ int main()
 
 	float spawnTime{ 2.f };
 	float currentSpawnTime{};
-	Vector2 spawnPosition{
-		window.width / 2.f,
-		static_cast<float>(window.height)
+	Vector2 spawnPositions[4] {
+	    { window.width / 2.f, 0.f }, // top
+		{ window.width / 2.f, static_cast<float>(window.height) }, // bottom
+		{ 0.f, window.height / 2.f }, // left
+		{ static_cast<float>(window.width), window.height / 2.f } // right
 	};
 
 	Color hudColor = LIME;
@@ -42,8 +44,8 @@ int main()
 			if (currentSpawnTime < 0)
 			{
 				currentSpawnTime = spawnTime;
-				enemies.create("goblin", spawnPosition, &knight, window);
-				enemies.create("slime", spawnPosition, &knight, window);
+				enemies.create("goblin", spawnPositions[GetRandomValue(0, 3)], &knight, window);
+				enemies.create("slime", spawnPositions[GetRandomValue(0, 3)], &knight, window);
 			}
 
 			knight.update(delta);
