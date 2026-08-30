@@ -2,13 +2,12 @@
 #include "Player.h"
 #include "GameResources.h"
 #include "EnemyManager.h"
-#include <vector>
 #include "WindowDimensions.h"
 #include "Version.h"
 
 int main()
 {
-	int gamepad = 0;
+	int gamepad = -1;
 
 	WindowDimensions window{ 1200, 800 };
 
