@@ -30,12 +30,12 @@ Textures are loaded through paths relative to the working directory, and the bui
 
 ## Controls
 
-|                          | Keyboard        | Gamepad             |
-| ------------------------ | --------------- | ------------------- |
-| Move                     | `W` `A` `S` `D` | left stick / d-pad  |
-| Attack                   | `Space`         | X / square          |
-| Roll (i-frames)          | `Z`             | A / cross           |
-| Restart after game over  | `R`             | A / cross           |
+|                          | Keyboard                      | Gamepad             |
+| ------------------------ | ----------------------------- | ------------------- |
+| Move                     | `W` `A` `S` `D` / arrow keys  | left stick / d-pad  |
+| Attack                   | `Space`                       | X / square          |
+| Roll (i-frames)          | `Z`                           | A / cross           |
+| Restart after game over  | `R`                           | A / cross           |
 
 A gamepad is auto-detected and takes over from the keyboard when one is connected.
 
