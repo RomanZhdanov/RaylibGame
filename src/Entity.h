@@ -5,6 +5,7 @@
 class Entity
 {
 public:
+    virtual ~Entity() {}
 	virtual void update(float delta);
 	virtual void draw();
 	virtual void setPosition(Vector2 pos) { position = pos; }
