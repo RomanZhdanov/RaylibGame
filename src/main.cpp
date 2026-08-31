@@ -20,6 +20,8 @@ int main()
 	knight.setWindow(window);
 	knight.setInput(&input);
 
+	int const ENEMIES_LIMIT = 10;
+
 	float spawnTime{ 2.f };
 	float currentSpawnTime{};
 	Vector2 spawnPositions[4] {
@@ -30,7 +32,9 @@ int main()
 	};
 
 	Color hudColor = LIME;
-	EnemyManager enemies;
+	EnemyManager enemiesManager;
+
+	enemiesManager.setLimit(ENEMIES_LIMIT);
 
 	while (!WindowShouldClose())
 	{
@@ -41,15 +45,15 @@ int main()
 		{
 			currentSpawnTime -= delta;
 
-			if (currentSpawnTime < 0)
+			if (currentSpawnTime <= 0 && !enemiesManager.isFull())
 			{
 				currentSpawnTime = spawnTime;
-				enemies.create("goblin", spawnPositions[GetRandomValue(0, 3)], &knight, window);
-				enemies.create("slime", spawnPositions[GetRandomValue(0, 3)], &knight, window);
+				enemiesManager.create("goblin", spawnPositions[GetRandomValue(0, 3)], &knight, window);
+				enemiesManager.create("slime", spawnPositions[GetRandomValue(0, 3)], &knight, window);
 			}
 
 			knight.update(delta);
-			enemies.update(delta);
+			enemiesManager.update(delta);
 		}
 		else
 		{
@@ -70,7 +74,7 @@ int main()
 			if (reset)
 			{
 				knight.reset();
-				enemies.deleteAll();
+				enemiesManager.deleteAll();
 			}
 		}
 
@@ -85,10 +89,10 @@ int main()
 		knight.showHitboxRec(true);
 		knight.showCollisionRec(true);
 		knight.showHurtboxRec(true);
-		enemies.showCollisionRec(true);
+		enemiesManager.showCollisionRec(true);
 
 		knight.draw();
-		enemies.draw();
+		enemiesManager.draw();
 
 		if (!knight.isAlive())
 		{
