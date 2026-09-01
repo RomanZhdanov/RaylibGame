@@ -5,11 +5,13 @@
 class Enemy : public Entity
 {
 public:
-	Enemy(int _health, int _damage, float _speed, int _points) {
+	Enemy(int _health, int _damage, float _speed, int _points, float _scale, Color _color) {
 	    health = _health;
 	    damage = _damage;
 	    speed = _speed;
 	    points = _points;
+	    scale = _scale;
+	    color = _color;
 	}
 	void setTarget(Player* player) { target = player; }
 	virtual void update(float delta) override;

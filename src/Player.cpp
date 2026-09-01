@@ -5,9 +5,12 @@
 
 Player::Player()
 {
+    scale = 3.f;
+    color = WHITE;
+
 	auto player = std::make_shared<AnimatedSprite>(
 		textureManager.get("player"),
-		3.f,
+		scale,
 		60,
 		1
 	);
@@ -54,12 +57,12 @@ void Player::update(float delta)
 	if (isHurting())
 	{
 		hurting -= delta;
-		animations.setColor(RED);
+		color = RED;
 	}
 	else
 	{
 		hurting = 0.f;
-		animations.setColor(WHITE);
+		color = WHITE;
 	}
 }
 

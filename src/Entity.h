@@ -24,6 +24,8 @@ protected:
             speed(e.speed),
             damage(e.damage),
             collisionRecVisible(e.collisionRecVisible),
+            scale(e.scale),
+            color(e.color),
             position(e.position),
             positionLastFrame(e.positionLastFrame),
             velocity(e.velocity),
@@ -32,8 +34,10 @@ protected:
             window(e.window) {}
 	int health{};
 	float speed{};
-	int damage {};
+	int damage{};
 	bool collisionRecVisible{ false };
+	float scale{};
+	Color color{};
 	Vector2 position{};
 	Vector2 positionLastFrame{};
 	Vector2 velocity{};

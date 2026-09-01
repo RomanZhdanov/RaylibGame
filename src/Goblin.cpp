@@ -1,20 +1,20 @@
 #include "Goblin.h"
 #include "GameResources.h"
 
-Goblin::Goblin(int _health, int _damage, float _speed, int _points)
-    : Enemy(_health, _damage, _speed, _points) {}
+Goblin::Goblin(int _health, int _damage, float _speed, int _points, float _scale, Color _color)
+    : Enemy(_health, _damage, _speed, _points, _scale, _color) {}
 
 void Goblin::loadAnimations()
 {
 	auto idle = std::make_shared<AnimatedSprite>(
 		textureManager.get("goblin_idle"),
-		4.f,
+		scale,
 		6,
 		1
 	);
 	auto run = std::make_shared<AnimatedSprite>(
 		textureManager.get("goblin_run"),
-		4.f,
+		scale,
 		6,
 		1
 	);

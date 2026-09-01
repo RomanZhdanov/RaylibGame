@@ -42,6 +42,7 @@ void Entity::update(float delta)
 
 void Entity::draw()
 {
+    animations.setColor(color);
 	animations.draw();
 }
 

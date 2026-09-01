@@ -4,7 +4,7 @@
 class Goblin : public Enemy
 {
 public:
-	Goblin(int _health, int _damage, float _speed, int _points);
+	Goblin(int _health, int _damage, float _speed, int _points, float scale, Color color);
 	virtual void loadAnimations() override;
 	Enemy* Clone() const override {
 		return new Goblin(*this);

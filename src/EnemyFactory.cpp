@@ -4,9 +4,9 @@
 
 EnemyFactory::EnemyFactory()
 {
-	enemies["goblin"] = new Goblin(10, 3, 150.f, 200);
-	enemies["goblin-boss"] = new Goblin(40, 3, 75.f, 1000);
-	enemies["slime"] = new Slime(5, 1, 100.f, 100);
+	enemies["goblin"] = new Goblin(10, 3, 150.f, 200, 4.f, WHITE);
+	enemies["goblin-boss"] = new Goblin(40, 10, 70.f, 1000, 8.f, PURPLE);
+	enemies["slime"] = new Slime(5, 1, 100.f, 100, 4.f, WHITE);
 }
 
 EnemyFactory::~EnemyFactory()
