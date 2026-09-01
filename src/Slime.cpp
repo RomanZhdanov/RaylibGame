@@ -1,13 +1,8 @@
 #include "Slime.h"
 #include "GameResources.h"
 
-Slime::Slime()
-{
-    health = 5;
-    damage = 1;
-	speed = 100.f;
-	points = 100;
-}
+Slime::Slime(int _health, int _damage, float _speed, int _points)
+    : Enemy(_health, _damage, _speed, _points) {}
 
 void Slime::loadAnimations()
 {

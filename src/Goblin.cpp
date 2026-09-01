@@ -1,13 +1,8 @@
 #include "Goblin.h"
 #include "GameResources.h"
 
-Goblin::Goblin()
-{
-    health = 10;
-    damage = 3;
-	speed = 150.f;
-	points = 200;
-}
+Goblin::Goblin(int _health, int _damage, float _speed, int _points)
+    : Enemy(_health, _damage, _speed, _points) {}
 
 void Goblin::loadAnimations()
 {

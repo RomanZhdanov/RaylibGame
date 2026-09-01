@@ -40,8 +40,9 @@ int main()
 		{ 0.f, window.height / 2.f }, // left
 		{ static_cast<float>(window.width), window.height / 2.f } // right
 	}};
-	std::array<std::string, 2> spawnTypes {
+	std::array<std::string, 3> spawnTypes {
 	    "goblin",
+		"goblin-boss",
 		"slime"
 	};
 
