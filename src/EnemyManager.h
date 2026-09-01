@@ -9,6 +9,7 @@ class EnemyManager
 public:
 	~EnemyManager();
 	void setLimit(int _limit) { limit = _limit; }
+	int getLimit() { return limit; }
 	void update(float delta);
 	void draw();
 	void showCollisionRec(bool value) { collisionRecVisible = value; }

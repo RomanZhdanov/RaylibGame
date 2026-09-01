@@ -1,9 +1,16 @@
+#include <array>
 #include "raylib.h"
 #include "Player.h"
 #include "GameResources.h"
 #include "EnemyManager.h"
 #include "WindowDimensions.h"
 #include "Version.h"
+
+
+static float GetRandomSpawnTime(float min, float max)
+{
+    return GetRandomValue(static_cast<int>(min * 1000), static_cast<int>(max * 1000)) / 1000.f;
+}
 
 int main()
 {
@@ -20,21 +27,28 @@ int main()
 	knight.setWindow(window);
 	knight.setInput(&input);
 
-	int const ENEMIES_LIMIT = 10;
+	float const ENEMIES_SPAWN_TIME_MAX = 2.f ;
+	float const ENEMIES_SPAWN_TIME_MIN = 0.5 ;
+	int const ENEMIES_INITIAL_LIMIT = 1;
+	float const ENEMIES_LIMIT_INTERVAL = 10.f;
 
-	float spawnTime{ 2.f };
-	float currentSpawnTime{};
-	Vector2 spawnPositions[4] {
+	float currentSpawnTime = ENEMIES_SPAWN_TIME_MAX;
+	float currentEnemiesLimitTime = ENEMIES_LIMIT_INTERVAL;
+	std::array<Vector2, 4> spawnPositions {{
 	    { window.width / 2.f, 0.f }, // top
 		{ window.width / 2.f, static_cast<float>(window.height) }, // bottom
 		{ 0.f, window.height / 2.f }, // left
 		{ static_cast<float>(window.width), window.height / 2.f } // right
+	}};
+	std::array<std::string, 2> spawnTypes {
+	    "goblin",
+		"slime"
 	};
 
 	Color hudColor = LIME;
 	EnemyManager enemiesManager;
 
-	enemiesManager.setLimit(ENEMIES_LIMIT);
+	enemiesManager.setLimit(ENEMIES_INITIAL_LIMIT);
 
 	while (!WindowShouldClose())
 	{
@@ -44,12 +58,21 @@ int main()
 		if (knight.isAlive())
 		{
 			currentSpawnTime -= delta;
+			currentEnemiesLimitTime -= delta;
 
 			if (currentSpawnTime <= 0 && !enemiesManager.isFull())
 			{
-				currentSpawnTime = spawnTime;
-				enemiesManager.create("goblin", spawnPositions[GetRandomValue(0, 3)], &knight, window);
-				enemiesManager.create("slime", spawnPositions[GetRandomValue(0, 3)], &knight, window);
+				currentSpawnTime = GetRandomSpawnTime(ENEMIES_SPAWN_TIME_MIN, ENEMIES_SPAWN_TIME_MAX);
+				std::string enemyType = spawnTypes[GetRandomValue(0, static_cast<int>(spawnTypes.size()) - 1)];
+			    Vector2 enemyPosition = spawnPositions[GetRandomValue(0, static_cast<int>(spawnPositions.size()) -1)];
+				enemiesManager.create(enemyType, enemyPosition, &knight, window);
+			}
+
+			if (currentEnemiesLimitTime <= 0)
+			{
+			    currentEnemiesLimitTime = ENEMIES_LIMIT_INTERVAL;
+				int curLimit = enemiesManager.getLimit();
+				enemiesManager.setLimit(curLimit + 1);
 			}
 
 			knight.update(delta);
@@ -75,6 +98,9 @@ int main()
 			{
 				knight.reset();
 				enemiesManager.deleteAll();
+				enemiesManager.setLimit(ENEMIES_INITIAL_LIMIT);
+				currentSpawnTime = ENEMIES_SPAWN_TIME_MAX;
+				currentEnemiesLimitTime = ENEMIES_LIMIT_INTERVAL;
 			}
 		}
 
