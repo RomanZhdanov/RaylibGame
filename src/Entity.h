@@ -5,6 +5,7 @@
 class Entity
 {
 public:
+    Entity() = default;
     virtual ~Entity() {}
 	virtual void update(float delta);
 	virtual void draw();
@@ -15,6 +16,16 @@ public:
 	Rectangle getCollisionRec() { return collisionRec; }
 	bool isAlive{ true };
 protected:
+    Entity(const Entity& e) :
+            isAlive(e.isAlive),
+            collisionRecVisible(e.collisionRecVisible),
+            speed(e.speed),
+            position(e.position),
+            positionLastFrame(e.positionLastFrame),
+            velocity(e.velocity),
+            direction(e.direction),
+            collisionRec(e.collisionRec),
+            window(e.window) {}
 	bool collisionRecVisible{ false };
 	float speed{};
 	Vector2 position{};

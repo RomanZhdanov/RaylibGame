@@ -1,5 +1,13 @@
 #include "AnimationManager.h"
 
+AnimationManager::~AnimationManager()
+{
+	for (const auto& anim : animations)
+	{
+		delete anim.second;
+	}
+}
+
 void AnimationManager::add(const char* animName, Animation* animation)
 {
 	animations.insert(std::make_pair(animName, animation));
