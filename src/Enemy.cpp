@@ -4,16 +4,13 @@
 void Enemy::update(float delta)
 {
 	if (!isAlive()) return;
-	velocity = Vector2Subtract(target->getPosition(), getPosition());
-	Entity::update(delta);
 
-	if (CheckCollisionRecs(collisionRec, target->getHurtbox()))
-	{
-		if (!target->isHurting() && target->getState() != PlayerState::ROLL)
-			target->takeDamage(damage);
-
-		undoMovement();
+	if (attacked) {
+	    velocity = {};
+	} else {
+	    velocity = Vector2Subtract(target->getPosition(), getPosition());
 	}
+
 
 	if (target->getState() == PlayerState::ATTACK)
 	{
@@ -29,6 +26,16 @@ void Enemy::update(float delta)
 		}
 	} else {
 	    attacked = false;
+	}
+
+	Entity::update(delta);
+
+	if (CheckCollisionRecs(collisionRec, target->getHurtbox()))
+	{
+		if (!target->isHurting() && target->getState() != PlayerState::ROLL)
+			target->takeDamage(damage);
+
+		undoMovement();
 	}
 }
 
