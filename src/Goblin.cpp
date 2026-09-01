@@ -3,6 +3,8 @@
 
 Goblin::Goblin()
 {
+    health = 10;
+    damage = 3;
 	speed = 150.f;
 	points = 200;
 }

@@ -3,6 +3,8 @@
 
 Slime::Slime()
 {
+    health = 5;
+    damage = 1;
 	speed = 100.f;
 	points = 100;
 }

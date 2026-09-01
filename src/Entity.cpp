@@ -15,7 +15,7 @@ void Entity::update(float delta)
 		animations.set("idle");
 	}
 	velocity = {};
-		
+
 	float padding{ 1.f };
 
 	float width = animations.getWidth() * padding;
@@ -42,7 +42,7 @@ void Entity::update(float delta)
 
 void Entity::draw()
 {
-	if (isAlive)
+	if (isAlive())
 		animations.draw();
 }
 

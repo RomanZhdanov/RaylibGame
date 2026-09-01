@@ -17,7 +17,7 @@ void EnemyManager::update(float delta)
 	    Enemy* enemy = *it;
 		enemy->update(delta);
 
-		if (!enemy->isAlive)
+		if (!enemy->isAlive())
 		{
 		    it = enemies.erase(it);
 			delete enemy;

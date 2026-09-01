@@ -14,7 +14,9 @@ Player::Player()
 
 	score = 0;
 	speed = 250.f;
-	rollSpeed = speed * 2.8;
+	health = 10;
+	damage = 5;
+	rollSpeed = speed * 2.5;
 	float animationSpeed = 1.f / 12.f;
 	animations.add("idle", new Animation(player, 18, 18, animationSpeed, true));
 	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
@@ -178,6 +180,12 @@ void Player::updateInput()
 			state = PlayerState::ROLL;
 		}
 	}
+}
+
+void Player::takeDamage(int dmg)
+{
+	Entity::takeDamage(dmg);
+	hurting = hurtTimeout;
 }
 
 void Player::setRecs()
