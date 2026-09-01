@@ -42,8 +42,7 @@ void Entity::update(float delta)
 
 void Entity::draw()
 {
-	if (isAlive())
-		animations.draw();
+	animations.draw();
 }
 
 void Entity::undoMovement()
