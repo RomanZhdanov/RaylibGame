@@ -1,6 +1,6 @@
 #include "Animation.h"
 
-Animation::Animation(AnimatedSprite* sprite, int startFrame, int endFrame, float speed, bool looping) :
+Animation::Animation(std::shared_ptr<AnimatedSprite> sprite, int startFrame, int endFrame, float speed, bool looping) :
 	sprite(sprite),
 	startFrame(startFrame),
 	endFrame(endFrame),

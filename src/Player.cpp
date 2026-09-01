@@ -5,12 +5,12 @@
 
 Player::Player()
 {
-	auto* player = new AnimatedSprite{
+	auto player = std::make_shared<AnimatedSprite>(
 		textureManager.get("player"),
 		3.f,
 		60,
 		1
-	};
+	);
 
 	score = 0;
 	speed = 250.f;
