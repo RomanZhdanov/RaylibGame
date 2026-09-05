@@ -5,7 +5,7 @@
 #include "EnemyManager.h"
 #include "WindowDimensions.h"
 #include "Version.h"
-
+#include "ShuffleBag.h"
 
 static float GetRandomSpawnTime(float min, float max)
 {
@@ -22,8 +22,12 @@ int main()
 
 	LoadTextures();
 
+	std::mt19937 rng(std::random_device{}());
+
     InputSource input;
 	Player knight;
+	ShuffleBag enemiesBag;
+
 	knight.setWindow(window);
 	knight.setInput(&input);
 
@@ -40,11 +44,10 @@ int main()
 		{ 0.f, window.height / 2.f }, // left
 		{ static_cast<float>(window.width), window.height / 2.f } // right
 	}};
-	std::array<std::string, 3> spawnTypes {
-	    "goblin",
-		"goblin-boss",
-		"slime"
-	};
+	enemiesBag.Add("goblin", 10);
+	enemiesBag.Add("goblin-boss", 1);
+	enemiesBag.Add("slime", 20);
+	enemiesBag.Shuffle(rng);
 
 	Color hudColor = LIME;
 	EnemyManager enemiesManager;
@@ -64,7 +67,7 @@ int main()
 			if (currentSpawnTime <= 0 && !enemiesManager.isFull())
 			{
 				currentSpawnTime = GetRandomSpawnTime(ENEMIES_SPAWN_TIME_MIN, ENEMIES_SPAWN_TIME_MAX);
-				std::string enemyType = spawnTypes[GetRandomValue(0, static_cast<int>(spawnTypes.size()) - 1)];
+				std::string enemyType = enemiesBag.GetNext(rng);
 			    Vector2 enemyPosition = spawnPositions[GetRandomValue(0, static_cast<int>(spawnPositions.size()) -1)];
 				enemiesManager.create(enemyType, enemyPosition, &knight, window);
 			}

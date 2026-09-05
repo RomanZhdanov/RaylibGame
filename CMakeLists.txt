@@ -52,6 +52,8 @@ add_executable(PotatoEngine
   src/Goblin.cpp
   src/Player.h
   src/Player.cpp
+  src/ShuffleBag.h
+  src/ShuffleBag.cpp
   src/Slime.h
   src/Slime.cpp
   src/Sprite.h
