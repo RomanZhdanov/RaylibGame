@@ -196,11 +196,6 @@ void Player::setRecs()
 	float halfWidth = animations.getWidth() / 2;
 	float halfHeight = animations.getHeight() / 2;
 
-	Vector2 center{
-		position.x + halfWidth,
-		position.y + halfHeight
-	};
-
 	float padding{ 0.335f };
 
 	float width = animations.getWidth() * padding;
