@@ -116,10 +116,10 @@ int main()
 		DrawText(TextFormat("Score: %i", knight.getScore()), window.width - 200, 10, 20, hudColor);
 		DrawText(TextFormat("v%s", GAME_VERSION), 10, window.height - 20, 10, hudColor);
 
-		knight.showHitboxRec(true);
-		knight.showCollisionRec(true);
-		knight.showHurtboxRec(true);
-		enemiesManager.showCollisionRec(true);
+		// knight.showHitboxRec(true);
+		// knight.showCollisionRec(true);
+		// knight.showHurtboxRec(true);
+		// enemiesManager.showCollisionRec(true);
 
 		knight.draw();
 		enemiesManager.draw();
