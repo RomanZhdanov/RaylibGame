@@ -3,26 +3,45 @@
 
 void Enemy::update(float delta)
 {
-	if (!isAlive) return;
-	velocity = Vector2Subtract(target->getPosition(), getPosition());
-	Entity::update(delta);
+	if (!isAlive()) return;
 
-	if (CheckCollisionRecs(collisionRec, target->getCollisionRec()))
-	{
-		if (!target->isHurting() && target->getState() != PlayerState::ROLL)
-			target->takeDamage();
-		
-		undoMovement();
+	if (attacked) {
+	    velocity = {};
+	} else {
+	    velocity = Vector2Subtract(target->getPosition(), getPosition());
 	}
+
 
 	if (target->getState() == PlayerState::ATTACK)
 	{
-		if (CheckCollisionRecs(collisionRec, target->getHitbox()))
+		if (!attacked && CheckCollisionRecs(collisionRec, target->getHitbox()))
 		{
-			isAlive = false;
-			target->addScore(points);
-		}		
+		    attacked = true;
+		    takeDamage(target->getDamage());
+
+			if (!isAlive())
+			{
+			    target->addScore(points);
+			}
+		}
+	} else {
+	    attacked = false;
 	}
+
+	Entity::update(delta);
+
+	if (CheckCollisionRecs(collisionRec, target->getHurtbox()))
+	{
+		if (!target->isHurting() && target->getState() != PlayerState::ROLL)
+			target->takeDamage(damage);
+
+		undoMovement();
+	}
+}
+
+void Enemy::draw()
+{
+	Entity::draw();
 
 	if (collisionRecVisible)
 	{

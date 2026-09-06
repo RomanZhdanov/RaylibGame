@@ -6,6 +6,10 @@
 class AnimationManager
 {
 public:
+    AnimationManager() = default;
+    AnimationManager(const AnimationManager&) = delete;
+    AnimationManager& operator=(const AnimationManager&) = delete;
+    ~AnimationManager();
 	void update(float delta);
 	void draw();
 	void set(const char* anim);

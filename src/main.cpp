@@ -1,9 +1,16 @@
+#include <array>
 #include "raylib.h"
 #include "Player.h"
 #include "GameResources.h"
 #include "EnemyManager.h"
 #include "WindowDimensions.h"
 #include "Version.h"
+#include "ShuffleBag.h"
+
+static float GetRandomSpawnTime(float min, float max)
+{
+    return GetRandomValue(static_cast<int>(min * 1000), static_cast<int>(max * 1000)) / 1000.f;
+}
 
 int main()
 {
@@ -15,20 +22,37 @@ int main()
 
 	LoadTextures();
 
+	std::mt19937 rng(std::random_device{}());
+
     InputSource input;
 	Player knight;
+	ShuffleBag enemiesBag;
+
 	knight.setWindow(window);
 	knight.setInput(&input);
 
-	float spawnTime{ 2.f };
-	float currentSpawnTime{};
-	Vector2 spawnPosition{
-		window.width / 2.f,
-		static_cast<float>(window.height)
-	};
+	float const ENEMIES_SPAWN_TIME_MAX = 2.f ;
+	float const ENEMIES_SPAWN_TIME_MIN = 0.5 ;
+	int const ENEMIES_INITIAL_LIMIT = 1;
+	float const ENEMIES_LIMIT_INTERVAL = 10.f;
+
+	float currentSpawnTime = ENEMIES_SPAWN_TIME_MAX;
+	float currentEnemiesLimitTime = ENEMIES_LIMIT_INTERVAL;
+	std::array<Vector2, 4> spawnPositions {{
+	    { window.width / 2.f, 0.f }, // top
+		{ window.width / 2.f, static_cast<float>(window.height) }, // bottom
+		{ 0.f, window.height / 2.f }, // left
+		{ static_cast<float>(window.width), window.height / 2.f } // right
+	}};
+	enemiesBag.Add("goblin", 10);
+	enemiesBag.Add("goblin-boss", 1);
+	enemiesBag.Add("slime", 20);
+	enemiesBag.Shuffle(rng);
 
 	Color hudColor = LIME;
-	EnemyManager enemies;
+	EnemyManager enemiesManager;
+
+	enemiesManager.setLimit(ENEMIES_INITIAL_LIMIT);
 
 	while (!WindowShouldClose())
 	{
@@ -38,16 +62,25 @@ int main()
 		if (knight.isAlive())
 		{
 			currentSpawnTime -= delta;
+			currentEnemiesLimitTime -= delta;
 
-			if (currentSpawnTime < 0)
+			if (currentSpawnTime <= 0 && !enemiesManager.isFull())
 			{
-				currentSpawnTime = spawnTime;
-				enemies.create("goblin", spawnPosition, &knight, window);
-				enemies.create("slime", spawnPosition, &knight, window);
+				currentSpawnTime = GetRandomSpawnTime(ENEMIES_SPAWN_TIME_MIN, ENEMIES_SPAWN_TIME_MAX);
+				std::string enemyType = enemiesBag.GetNext(rng);
+			    Vector2 enemyPosition = spawnPositions[GetRandomValue(0, static_cast<int>(spawnPositions.size()) -1)];
+				enemiesManager.create(enemyType, enemyPosition, &knight, window);
+			}
+
+			if (currentEnemiesLimitTime <= 0)
+			{
+			    currentEnemiesLimitTime = ENEMIES_LIMIT_INTERVAL;
+				int curLimit = enemiesManager.getLimit();
+				enemiesManager.setLimit(curLimit + 1);
 			}
 
 			knight.update(delta);
-			enemies.update(delta);
+			enemiesManager.update(delta);
 		}
 		else
 		{
@@ -68,7 +101,10 @@ int main()
 			if (reset)
 			{
 				knight.reset();
-				enemies.deleteAll();
+				enemiesManager.deleteAll();
+				enemiesManager.setLimit(ENEMIES_INITIAL_LIMIT);
+				currentSpawnTime = ENEMIES_SPAWN_TIME_MAX;
+				currentEnemiesLimitTime = ENEMIES_LIMIT_INTERVAL;
 			}
 		}
 
@@ -76,16 +112,17 @@ int main()
 
 		ClearBackground(LIGHTGRAY);
 
-		DrawText(TextFormat("Lives: %i", knight.getLives()), 10, 10, 20, hudColor);
+		DrawText(TextFormat("HP: %i", knight.getHealth()), 10, 10, 20, hudColor);
 		DrawText(TextFormat("Score: %i", knight.getScore()), window.width - 200, 10, 20, hudColor);
 		DrawText(TextFormat("v%s", GAME_VERSION), 10, window.height - 20, 10, hudColor);
 
-		/*knight.showHitboxRec(true);
-		knight.showCollisionRec(true);
-		enemies.showCollisionRec(true);*/
+		// knight.showHitboxRec(true);
+		// knight.showCollisionRec(true);
+		// knight.showHurtboxRec(true);
+		// enemiesManager.showCollisionRec(true);
 
 		knight.draw();
-		enemies.draw();
+		enemiesManager.draw();
 
 		if (!knight.isAlive())
 		{

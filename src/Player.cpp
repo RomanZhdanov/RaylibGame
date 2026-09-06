@@ -5,16 +5,21 @@
 
 Player::Player()
 {
-	auto* player = new AnimatedSprite{
+    scale = 3.f;
+    color = WHITE;
+
+	auto player = std::make_shared<AnimatedSprite>(
 		textureManager.get("player"),
-		3.f,
+		scale,
 		60,
 		1
-	};
+	);
 
 	score = 0;
 	speed = 250.f;
-	rollSpeed = speed * 2.8;
+	health = 10;
+	damage = 5;
+	rollSpeed = speed * 2.5;
 	float animationSpeed = 1.f / 12.f;
 	animations.add("idle", new Animation(player, 18, 18, animationSpeed, true));
 	animations.add("idle_right", new Animation(player, 0, 0, animationSpeed, true));
@@ -52,13 +57,18 @@ void Player::update(float delta)
 	if (isHurting())
 	{
 		hurting -= delta;
-		animations.setColor(RED);
+		color = RED;
 	}
 	else
 	{
 		hurting = 0.f;
-		animations.setColor(WHITE);
+		color = WHITE;
 	}
+}
+
+void Player::draw()
+{
+	Entity::draw();
 
 	if (hitboxRecVisible)
 	{
@@ -68,6 +78,17 @@ void Player::update(float delta)
 			hitbox.width,
 			hitbox.height,
 			RED
+		);
+	}
+
+	if (hurtboxRecVisible)
+	{
+	    DrawRectangleLines(
+			hurtbox.x,
+			hurtbox.y,
+			hurtbox.width,
+			hurtbox.height,
+			YELLOW
 		);
 	}
 
@@ -164,15 +185,16 @@ void Player::updateInput()
 	}
 }
 
+void Player::takeDamage(int dmg)
+{
+	Entity::takeDamage(dmg);
+	hurting = hurtTimeout;
+}
+
 void Player::setRecs()
 {
 	float halfWidth = animations.getWidth() / 2;
 	float halfHeight = animations.getHeight() / 2;
-
-	Vector2 center{
-		position.x + halfWidth,
-		position.y + halfHeight
-	};
 
 	float padding{ 0.335f };
 
@@ -184,6 +206,13 @@ void Player::setRecs()
 		position.y + height,
 		width,
 		height
+	};
+
+	hurtbox = {
+	    position.x + width + width / 4,
+		position.y + height + height / 4,
+		width / 2,
+		height / 2
 	};
 
 	// left

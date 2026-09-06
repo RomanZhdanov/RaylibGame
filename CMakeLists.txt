@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(PotatoEngine VERSION 0.1.1 LANGUAGES CXX)
+project(PotatoEngine VERSION 0.2.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -52,6 +52,8 @@ add_executable(PotatoEngine
   src/Goblin.cpp
   src/Player.h
   src/Player.cpp
+  src/ShuffleBag.h
+  src/ShuffleBag.cpp
   src/Slime.h
   src/Slime.cpp
   src/Sprite.h
